@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace AIO.BackendServer.Data.Migrations
+namespace AIO.BackendServer.Migrations
 {
-    public partial class Initial : Migration
+    public partial class AIO_1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,8 +21,8 @@ namespace AIO.BackendServer.Data.Migrations
                     EntityId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: true),
-                    UserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
-                    Content = table.Column<string>(maxLength: 500, nullable: true)
+                    UserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Content = table.Column<string>(maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -65,9 +65,8 @@ namespace AIO.BackendServer.Data.Migrations
                     FirstName = table.Column<string>(maxLength: 50, nullable: false),
                     LastName = table.Column<string>(maxLength: 50, nullable: false),
                     Dob = table.Column<DateTime>(nullable: false),
-                    NumberOfKnowledgeBases = table.Column<int>(nullable: true),
-                    NumberOfVotes = table.Column<int>(nullable: true),
-                    NumberOfReports = table.Column<int>(nullable: true)
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -101,7 +100,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     SeoAlias = table.Column<string>(type: "varchar(200)", maxLength: 200, nullable: false),
-                    SeoDescription = table.Column<string>(maxLength: 500, nullable: true),
+                    SeoDescription = table.Column<string>(maxLength: 500, nullable: false),
                     SortOrder = table.Column<int>(nullable: false),
                     ParentId = table.Column<int>(nullable: true),
                     NumberOfTickets = table.Column<int>(nullable: true)
@@ -109,6 +108,27 @@ namespace AIO.BackendServer.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Categories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CauHinhKhachSan",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    KyHieuDatPhong = table.Column<string>(maxLength: 200, nullable: false),
+                    EmailNhanPhong = table.Column<string>(maxLength: 200, nullable: false),
+                    EmailNhanThongBao = table.Column<string>(maxLength: 200, nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    TrangThai = table.Column<int>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CauHinhKhachSan", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,13 +163,41 @@ namespace AIO.BackendServer.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Content = table.Column<string>(maxLength: 500, nullable: false),
                     KnowledgeBaseId = table.Column<int>(nullable: false),
-                    OwnwerUserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    OwnerUserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CongTy",
+                columns: table => new
+                {
+                    ID_CongTy = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenCongTy = table.Column<string>(maxLength: 200, nullable: false),
+                    DiaChiCongTy = table.Column<string>(maxLength: 200, nullable: false),
+                    MaCongTy = table.Column<string>(maxLength: 50, nullable: false),
+                    EmailCongTy = table.Column<string>(maxLength: 200, nullable: false),
+                    AnhDaiDien = table.Column<string>(maxLength: 200, nullable: false),
+                    NguoiDaiDien = table.Column<string>(maxLength: 200, nullable: false),
+                    Hotline = table.Column<string>(maxLength: 200, nullable: false),
+                    DienThoaiBan = table.Column<string>(maxLength: 200, nullable: false),
+                    SoDiDong = table.Column<string>(maxLength: 200, nullable: false),
+                    Note = table.Column<string>(maxLength: 2000, nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    TrangThai = table.Column<int>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CongTy", x => x.ID_CongTy);
                 });
 
             migrationBuilder.CreateTable(
@@ -160,11 +208,65 @@ namespace AIO.BackendServer.Data.Migrations
                     Name = table.Column<string>(maxLength: 200, nullable: false),
                     Url = table.Column<string>(maxLength: 200, nullable: false),
                     SortOrder = table.Column<int>(nullable: false),
-                    ParentId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true)
+                    ParentId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    Icon = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Functions", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Giuong",
+                columns: table => new
+                {
+                    ID_LoaiGiuong = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NgonNgu = table.Column<int>(nullable: false),
+                    NoiDungHienThi = table.Column<string>(maxLength: 500, nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Giuong", x => x.ID_LoaiGiuong);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "KhachSan",
+                columns: table => new
+                {
+                    ID_KhachSan = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MaKhachSan = table.Column<string>(maxLength: 200, nullable: false),
+                    TenKhachSan = table.Column<string>(maxLength: 200, nullable: false),
+                    LogoKhachSan = table.Column<string>(maxLength: 200, nullable: false),
+                    Hotline = table.Column<string>(maxLength: 200, nullable: false),
+                    SoDiDong = table.Column<string>(maxLength: 50, nullable: false),
+                    SoMayBan = table.Column<string>(maxLength: 200, nullable: false),
+                    SoFax = table.Column<string>(maxLength: 200, nullable: false),
+                    Email = table.Column<string>(maxLength: 200, nullable: false),
+                    DiaChiKhachSan = table.Column<string>(maxLength: 200, nullable: false),
+                    Website = table.Column<string>(maxLength: 200, nullable: false),
+                    Facebook = table.Column<string>(maxLength: 200, nullable: false),
+                    Twitter = table.Column<string>(maxLength: 2000, nullable: false),
+                    Youtube = table.Column<string>(maxLength: 2000, nullable: false),
+                    Instagram = table.Column<string>(maxLength: 2000, nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    TrangThai = table.Column<int>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false),
+                    GioiThieu = table.Column<string>(maxLength: 200, nullable: false),
+                    ViTri = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KhachSan", x => x.ID_KhachSan);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,15 +277,15 @@ namespace AIO.BackendServer.Data.Migrations
                     CategoryId = table.Column<int>(nullable: false),
                     Title = table.Column<string>(maxLength: 500, nullable: false),
                     SeoAlias = table.Column<string>(type: "varchar(500)", maxLength: 500, nullable: false),
-                    Description = table.Column<string>(maxLength: 500, nullable: true),
-                    Environment = table.Column<string>(maxLength: 500, nullable: true),
-                    Problem = table.Column<string>(maxLength: 500, nullable: true),
-                    StepToReproduce = table.Column<string>(nullable: true),
-                    ErrorMessage = table.Column<string>(maxLength: 500, nullable: true),
-                    Workaround = table.Column<string>(maxLength: 500, nullable: true),
-                    Note = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(maxLength: 500, nullable: false),
+                    Environment = table.Column<string>(maxLength: 500, nullable: false),
+                    Problem = table.Column<string>(maxLength: 500, nullable: false),
+                    StepToReproduce = table.Column<string>(nullable: false),
+                    ErrorMessage = table.Column<string>(maxLength: 500, nullable: false),
+                    Workaround = table.Column<string>(maxLength: 500, nullable: false),
+                    Note = table.Column<string>(nullable: false),
                     OwnerUserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Labels = table.Column<string>(nullable: true),
+                    Labels = table.Column<string>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: true),
                     NumberOfComments = table.Column<int>(nullable: true),
@@ -212,11 +314,121 @@ namespace AIO.BackendServer.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
-                    Name = table.Column<string>(maxLength: 50, nullable: true)
+                    Name = table.Column<string>(maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Labels", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LoaiPhong",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenLoaiPhongTV = table.Column<string>(maxLength: 200, nullable: false),
+                    TenLoaiPhongTA = table.Column<string>(maxLength: 200, nullable: false),
+                    LogoKhachSan = table.Column<string>(maxLength: 200, nullable: false),
+                    Hotline = table.Column<string>(maxLength: 200, nullable: false),
+                    SoDiDong = table.Column<string>(maxLength: 50, nullable: false),
+                    SoMayBan = table.Column<string>(maxLength: 200, nullable: false),
+                    SoFax = table.Column<string>(maxLength: 200, nullable: false),
+                    Email = table.Column<string>(maxLength: 200, nullable: false),
+                    DiaChiKhachSan = table.Column<string>(maxLength: 200, nullable: false),
+                    Website = table.Column<string>(maxLength: 200, nullable: false),
+                    Facebook = table.Column<string>(maxLength: 200, nullable: false),
+                    Twitter = table.Column<string>(maxLength: 2000, nullable: false),
+                    Youtube = table.Column<string>(maxLength: 2000, nullable: false),
+                    Instagram = table.Column<string>(maxLength: 2000, nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    TrangThai = table.Column<int>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoaiPhong", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NgonNgu",
+                columns: table => new
+                {
+                    ID_NgonNgu = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TenNgonNgu = table.Column<string>(maxLength: 200, nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyDate = table.Column<DateTime>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NgonNgu", x => x.ID_NgonNgu);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NgonNgu_KhachSan",
+                columns: table => new
+                {
+                    ID_KhachSan = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NgonNgu = table.Column<int>(nullable: false),
+                    TrangThai = table.Column<bool>(nullable: false),
+                    MacDinh = table.Column<bool>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NgonNgu_KhachSan", x => x.ID_KhachSan);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NN_KhachSan",
+                columns: table => new
+                {
+                    ID_KhachSan = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NgonNgu = table.Column<int>(maxLength: 200, nullable: false),
+                    TenKhachSan = table.Column<string>(maxLength: 500, nullable: false),
+                    GioiThieu = table.Column<string>(maxLength: 500, nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NN_KhachSan", x => x.ID_KhachSan);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "NN_TienIchMoRong",
+                columns: table => new
+                {
+                    Id_NgonNgu = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_CongTy = table.Column<int>(nullable: false),
+                    ID_TienichMoRong = table.Column<int>(nullable: false),
+                    NoiDungHienThi = table.Column<string>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_NN_TienIchMoRong", x => x.Id_NgonNgu);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,8 +451,8 @@ namespace AIO.BackendServer.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     KnowledgeBaseId = table.Column<int>(nullable: false),
-                    Content = table.Column<string>(maxLength: 500, nullable: true),
-                    ReportUserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: true),
+                    Content = table.Column<string>(maxLength: 500, nullable: false),
+                    ReportUserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
                     LastModifiedDate = table.Column<DateTime>(nullable: true),
                     IsProcessed = table.Column<bool>(nullable: false)
@@ -251,17 +463,80 @@ namespace AIO.BackendServer.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Votes",
+                name: "SoNguoiToiDa",
                 columns: table => new
                 {
-                    KnowledgeBaseId = table.Column<int>(nullable: false),
-                    UserId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false),
+                    ID_SoNguoiToiDa = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NgonNgu = table.Column<int>(nullable: false),
+                    NoiDungHienThi = table.Column<string>(maxLength: 500, nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
                     CreateDate = table.Column<DateTime>(nullable: false),
-                    LastModifiedDate = table.Column<DateTime>(nullable: true)
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Votes", x => new { x.KnowledgeBaseId, x.UserId });
+                    table.PrimaryKey("PK_SoNguoiToiDa", x => x.ID_SoNguoiToiDa);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TienIch",
+                columns: table => new
+                {
+                    ID_TienIch = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NgonNgu = table.Column<int>(nullable: false),
+                    NoiDungHienThi = table.Column<string>(maxLength: 500, nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TienIch", x => x.ID_TienIch);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TienIchMoRong_CongTy",
+                columns: table => new
+                {
+                    ID_CongTy = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_TienIchMoRong = table.Column<int>(nullable: false),
+                    TenTienich = table.Column<string>(maxLength: 500, nullable: false),
+                    TrangThai = table.Column<bool>(nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TienIchMoRong_CongTy", x => x.ID_CongTy);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "View",
+                columns: table => new
+                {
+                    ID_View = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ID_NgonNgu = table.Column<int>(nullable: false),
+                    NoiDungHienThi = table.Column<string>(maxLength: 500, nullable: false),
+                    Delete = table.Column<bool>(nullable: false),
+                    CreateDate = table.Column<DateTime>(nullable: false),
+                    LastModifiedDate = table.Column<DateTime>(nullable: true),
+                    CreateBy = table.Column<string>(maxLength: 200, nullable: false),
+                    ModifyBy = table.Column<string>(maxLength: 200, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_View", x => x.ID_View);
                 });
 
             migrationBuilder.CreateTable(
@@ -437,6 +712,9 @@ namespace AIO.BackendServer.Data.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
+                name: "CauHinhKhachSan");
+
+            migrationBuilder.DropTable(
                 name: "CommandInFunctions");
 
             migrationBuilder.DropTable(
@@ -446,7 +724,16 @@ namespace AIO.BackendServer.Data.Migrations
                 name: "Comments");
 
             migrationBuilder.DropTable(
+                name: "CongTy");
+
+            migrationBuilder.DropTable(
                 name: "Functions");
+
+            migrationBuilder.DropTable(
+                name: "Giuong");
+
+            migrationBuilder.DropTable(
+                name: "KhachSan");
 
             migrationBuilder.DropTable(
                 name: "KnowledgeBases");
@@ -458,13 +745,37 @@ namespace AIO.BackendServer.Data.Migrations
                 name: "Labels");
 
             migrationBuilder.DropTable(
+                name: "LoaiPhong");
+
+            migrationBuilder.DropTable(
+                name: "NgonNgu");
+
+            migrationBuilder.DropTable(
+                name: "NgonNgu_KhachSan");
+
+            migrationBuilder.DropTable(
+                name: "NN_KhachSan");
+
+            migrationBuilder.DropTable(
+                name: "NN_TienIchMoRong");
+
+            migrationBuilder.DropTable(
                 name: "Permissions");
 
             migrationBuilder.DropTable(
                 name: "Reports");
 
             migrationBuilder.DropTable(
-                name: "Votes");
+                name: "SoNguoiToiDa");
+
+            migrationBuilder.DropTable(
+                name: "TienIch");
+
+            migrationBuilder.DropTable(
+                name: "TienIchMoRong_CongTy");
+
+            migrationBuilder.DropTable(
+                name: "View");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

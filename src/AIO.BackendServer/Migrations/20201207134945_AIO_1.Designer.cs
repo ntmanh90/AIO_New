@@ -4,14 +4,16 @@ using AIO.BackendServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace AIO.BackendServer.Data.Migrations
+namespace AIO.BackendServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201207134945_AIO_1")]
+    partial class AIO_1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,6 +35,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
@@ -53,6 +56,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserId")
+                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -124,6 +128,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("SeoDescription")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
@@ -143,6 +148,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -171,6 +177,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -235,6 +242,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("OwnerUserId")
+                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -251,10 +259,12 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AnhDaiDien")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -265,10 +275,12 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("DiaChiCongTy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("DienThoaiBan")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -291,6 +303,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -300,10 +313,12 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
                     b.Property<string>("SoDiDong")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -327,6 +342,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Icon")
+                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -336,6 +352,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("ParentId")
+                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -360,6 +377,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -376,6 +394,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -397,6 +416,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -417,18 +437,22 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("Facebook")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("GioiThieu")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Hotline")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Instagram")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
@@ -446,6 +470,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -455,10 +480,12 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("SoFax")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("SoMayBan")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -471,18 +498,22 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Twitter")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
                     b.Property<string>("ViTri")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Website")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Youtube")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
@@ -503,24 +534,29 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("Environment")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("ErrorMessage")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
                     b.Property<string>("Labels")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Note")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("NumberOfComments")
@@ -538,6 +574,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Problem")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
@@ -547,6 +584,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(500);
 
                     b.Property<string>("StepToReproduce")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -555,6 +593,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(500);
 
                     b.Property<string>("Workaround")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
@@ -570,6 +609,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
@@ -600,6 +640,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -620,14 +661,17 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("Facebook")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Hotline")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Instagram")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
@@ -640,6 +684,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -649,10 +694,12 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("SoFax")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("SoMayBan")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -670,14 +717,17 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Twitter")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
                     b.Property<string>("Website")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("Youtube")
+                        .IsRequired()
                         .HasColumnType("nvarchar(2000)")
                         .HasMaxLength(2000);
 
@@ -694,6 +744,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -716,6 +767,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -737,6 +789,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -756,10 +809,12 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
                     b.Property<string>("NoiDungHienThi")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id_NgonNgu");
@@ -786,6 +841,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -810,6 +866,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -829,6 +886,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -867,6 +925,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
@@ -883,6 +942,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ReportUserId")
+                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -899,6 +959,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -915,6 +976,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -936,6 +998,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -952,6 +1015,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -973,6 +1037,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -989,6 +1054,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -1099,6 +1165,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
@@ -1115,6 +1182,7 @@ namespace AIO.BackendServer.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("ModifyBy")
+                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
