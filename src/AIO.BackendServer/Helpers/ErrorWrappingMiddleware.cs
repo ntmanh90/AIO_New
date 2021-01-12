@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace AIO.BackendServer.Helpers
 {
+    //bắn mã lỗi bằng cách dùng middleware cho mọi request
     public class ErrorWrappingMiddleware
     {
         private readonly RequestDelegate _next;

@@ -15,6 +15,13 @@ namespace AIO.BackendServer.Constants
         CONTENT_COMMENT,
         CONTENT_REPORT,
 
+        DANHMUC,
+        DANHMUC_LOAI_GIUONG,
+        DANHMUC_HUONG_VIEW,
+        DANHMUC_TIEN_ICH,
+        DANHMUC_NGON_NGU,
+        DANHMUC_NGUOI_TOI_DA,
+
         STATISTIC,
         STATISTIC_MONTHLY_NEWMEMBER,
         STATISTIC_MONTHLY_NEWKB,

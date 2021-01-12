@@ -333,6 +333,72 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("CongTy");
                 });
 
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.DichVu", b =>
+                {
+                    b.Property<int>("ID_DichVu")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AnhDaiDien")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("GiaTheoDemLuuTru")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GiaTheoDichVu")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GiaTheoNguoiLon")
+                        .HasColumnType("real");
+
+                    b.Property<float>("GiaTheoTreEm")
+                        .HasColumnType("real");
+
+                    b.Property<int>("GiaTinhTheo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_KhachSan")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MaDichVu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenDichvu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID_DichVu");
+
+                    b.ToTable("DichVu");
+                });
+
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.Function", b =>
                 {
                     b.Property<string>("Id")
@@ -340,7 +406,6 @@ namespace AIO.BackendServer.Migrations
                         .HasMaxLength(50);
 
                     b.Property<string>("Icon")
-                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -350,7 +415,6 @@ namespace AIO.BackendServer.Migrations
                         .HasMaxLength(200);
 
                     b.Property<string>("ParentId")
-                        .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
@@ -367,9 +431,9 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("Functions");
                 });
 
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Giuong", b =>
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.HuongNhin", b =>
                 {
-                    b.Property<int>("ID_LoaiGiuong")
+                    b.Property<int>("ID_HuongNhin")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -385,25 +449,24 @@ namespace AIO.BackendServer.Migrations
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ID_NgonNgu")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<string>("NoiDungHienThi")
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TieuDe")
                         .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
 
-                    b.HasKey("ID_LoaiGiuong");
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
 
-                    b.ToTable("Giuong");
+                    b.HasKey("ID_HuongNhin");
+
+                    b.ToTable("HuongNhin");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.KhachSan", b =>
@@ -630,7 +693,141 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("LabelInKnowledgeBases");
                 });
 
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.LoaiGiuong", b =>
+                {
+                    b.Property<int>("ID_LoaiGiuong")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TieuDe")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ID_LoaiGiuong");
+
+                    b.ToTable("LoaiGiuong");
+                });
+
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.LoaiPhong", b =>
+                {
+                    b.Property<int>("ID_LoaiPhong")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AnhDaiDien")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_HuongNhin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_KhachSan")
+                        .HasColumnType("int");
+
+                    b.Property<string>("KichThuoc")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MaLoaiPhong")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("NguoiLon")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TenLoaiPhong")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("TreEm")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID_LoaiPhong");
+
+                    b.ToTable("LoaiPhong");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.LoaiPhong_Gallery", b =>
+                {
+                    b.Property<int>("ID_Gallery")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_LoaiPhong")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Url_Gallery")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("ID_Gallery");
+
+                    b.ToTable("LoaiPhong_Gallery ");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.LoaiPhong_LoaiGiuong", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
@@ -648,90 +845,144 @@ namespace AIO.BackendServer.Migrations
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
-                    b.Property<string>("DiaChiKhachSan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Facebook")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Hotline")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("Instagram")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LogoKhachSan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("ModifyBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("SoDiDong")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("SoFax")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("SoMayBan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("TenLoaiPhongTA")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("TenLoaiPhongTV")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<int>("TrangThai")
+                    b.Property<int>("ID_LoaiPhong")
                         .HasColumnType("int");
 
-                    b.Property<string>("Twitter")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                    b.Property<int>("Id_LoaiGiuong")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Website")
-                        .IsRequired()
+                    b.Property<string>("ModifyBy")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<string>("Youtube")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(2000)")
-                        .HasMaxLength(2000);
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("ID");
 
-                    b.ToTable("LoaiPhong");
+                    b.ToTable("LoaiPhong_LoaiGiuong ");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.LoaiPhong_TienIch", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_LoaiPhong")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_TienIch")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("LoaiPhong_TienIch ");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_DichVu", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_DichVu")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NoiDungTheoNgonNgu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TenTheoNgonNgu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(300)")
+                        .HasMaxLength(300);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NN_DichVu");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_HuongNhin", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_HuongNhin")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NoiDungHienThi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NN_HuongNhin");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_KhachSan", b =>
@@ -758,16 +1009,15 @@ namespace AIO.BackendServer.Migrations
                         .HasMaxLength(500);
 
                     b.Property<int>("ID_NgonNgu")
-                        .HasColumnType("int")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("int");
 
                     b.Property<string>("ModifyBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenKhachSan")
                         .IsRequired()
@@ -779,9 +1029,171 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("NN_KhachSan");
                 });
 
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_LoaiGiuong", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_LoaiGiuong")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NoiDungHienThi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NN_LoaiGiuong");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_LoaiPhong", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_LoaiPhong")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TenLoaiPhongTheoNgonNgu")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NN_LoaiPhong");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_SoNguoiToiDa", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_NguoiToiDa")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NoiDungHienThi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NN_SoNguoiToiDa");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_TienIch", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreateBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Delete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ID_TienIch")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ModifyBy")
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("NoiDungHienThi")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("NN_TienIch");
+                });
+
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.NN_TienIchMoRong", b =>
                 {
-                    b.Property<int>("Id_NgonNgu")
+                    b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -803,19 +1215,22 @@ namespace AIO.BackendServer.Migrations
                     b.Property<int>("ID_TienichMoRong")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<int>("Id_NgonNgu")
+                        .HasColumnType("int");
 
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("NoiDungHienThi")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
-                    b.HasKey("Id_NgonNgu");
+                    b.HasKey("ID");
 
                     b.ToTable("NN_TienIchMoRong");
                 });
@@ -828,25 +1243,28 @@ namespace AIO.BackendServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("CreateBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<DateTime>("CreateDate")
+                    b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ModifyBy")
+                    b.Property<string>("KyHieu")
                         .IsRequired()
+                        .HasColumnType("nvarchar(10)")
+                        .HasMaxLength(10);
+
+                    b.Property<string>("ModifyBy")
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<DateTime>("ModifyDate")
+                    b.Property<DateTime?>("ModifyDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TenNgonNgu")
+                    b.Property<string>("TieuDe")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
@@ -854,46 +1272,6 @@ namespace AIO.BackendServer.Migrations
                     b.HasKey("ID_NgonNgu");
 
                     b.ToTable("NgonNgu");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NgonNgu_KhachSan", b =>
-                {
-                    b.Property<int>("ID_KhachSan")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Delete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ID_NgonNgu")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("MacDinh")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifyBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<bool>("TrangThai")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ID_KhachSan");
-
-                    b.ToTable("NgonNgu_KhachSan");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.Permission", b =>
@@ -967,21 +1345,20 @@ namespace AIO.BackendServer.Migrations
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ID_NgonNgu")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<string>("NoiDungHienThi")
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TieuDe")
                         .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID_SoNguoiToiDa");
 
@@ -1006,21 +1383,20 @@ namespace AIO.BackendServer.Migrations
                     b.Property<bool>("Delete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ID_NgonNgu")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ModifyBy")
-                        .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
 
-                    b.Property<string>("NoiDungHienThi")
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TieuDe")
                         .IsRequired()
                         .HasColumnType("nvarchar(500)")
                         .HasMaxLength(500);
+
+                    b.Property<bool>("TrangThai")
+                        .HasColumnType("bit");
 
                     b.HasKey("ID_TienIch");
 
@@ -1048,13 +1424,13 @@ namespace AIO.BackendServer.Migrations
                     b.Property<int>("ID_TienIchMoRong")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("ModifyBy")
                         .IsRequired()
                         .HasColumnType("nvarchar(200)")
                         .HasMaxLength(200);
+
+                    b.Property<DateTime?>("ModifyDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("TenTienich")
                         .IsRequired()
@@ -1153,45 +1529,6 @@ namespace AIO.BackendServer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.View", b =>
-                {
-                    b.Property<int>("ID_View")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Delete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ID_NgonNgu")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastModifiedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ModifyBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<string>("NoiDungHienThi")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(500)")
-                        .HasMaxLength(500);
-
-                    b.HasKey("ID_View");
-
-                    b.ToTable("View");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

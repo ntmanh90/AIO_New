@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AIO.ViewModels.Statistics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,9 @@ namespace AIO.BackendServer.Helpers
 {
     public class ApiBadRequestResponse : ApiResponse
     {
-        public IEnumerable<string> Errors { get; }
+        // trả về lỗi của model state
+        public IEnumerable<ErrorResponVm> Errors { get; }
+        public string ErrorMsg { get; }
 
         public ApiBadRequestResponse(ModelStateDictionary modelState)
             : base(400)
@@ -19,15 +22,21 @@ namespace AIO.BackendServer.Helpers
                 throw new ArgumentException("ModelState must be invalid", nameof(modelState));
             }
 
-            Errors = modelState.SelectMany(x => x.Value.Errors)
-                .Select(x => x.ErrorMessage).ToArray();
+            Errors = modelState.Select(x => new ErrorResponVm{
+                key = x.Key,
+                error= string.Join(",", x.Value.Errors.Select(a => a.ErrorMessage).ToList())
+            }).ToArray();
+            ErrorMsg = string.Join("," , Errors.Select(a => a.error).ToList());
         }
 
         public ApiBadRequestResponse(IdentityResult identityResult)
            : base(400)
         {
             Errors = identityResult.Errors
-                .Select(x => x.Code + " - " + x.Description).ToArray();
+                .Select(x => new ErrorResponVm{
+                key = x.Code,
+                error= x.Description
+            }).ToArray();
         }
 
         public ApiBadRequestResponse(string message)

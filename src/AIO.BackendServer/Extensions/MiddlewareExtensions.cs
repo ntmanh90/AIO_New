@@ -9,6 +9,8 @@ namespace AIO.BackendServer.Extensions
 {
     public static class MiddlewareExtensions
     {
+        //Xây dựng Extensions chạy Middleware thông qua IApplicationBuilder
+        // phần này sẽ được thiết lập chạy trong start
         public static IApplicationBuilder UseErrorWrapping(
             this IApplicationBuilder builder)
         {

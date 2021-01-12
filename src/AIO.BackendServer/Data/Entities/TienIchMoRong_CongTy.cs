@@ -19,7 +19,7 @@ namespace AIO.BackendServer.Data.Entities
         public bool TrangThai { get; set; }
         public bool Delete { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime? LastModifiedDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
         [MaxLength(200)]
         public string CreateBy { get; set; }
         [MaxLength(200)]

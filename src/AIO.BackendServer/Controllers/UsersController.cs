@@ -210,31 +210,43 @@ namespace AIO.BackendServer.Controllers
         }
 
         [HttpGet("{userId}/menu")]
+        //Lấy menu theo user
         public async Task<IActionResult> GetMenuByUserPermission(string userId)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            var roles = await _userManager.GetRolesAsync(user);
-            var query = from f in _context.Functions
-                        join p in _context.Permissions
-                            on f.Id equals p.FunctionId
-                        join r in _roleManager.Roles on p.RoleId equals r.Id
-                        join a in _context.Commands
-                            on p.CommandId equals a.Id
-                        where roles.Contains(r.Name) && a.Id == "VIEW"
-                        select new FunctionVm
-                        {
-                            Id = f.Id,
-                            Name = f.Name,
-                            Url = f.Url,
-                            ParentId = f.ParentId,
-                            SortOrder = f.SortOrder,
-                            Icon = f.Icon
-                        };
-            var data = await query.Distinct()
-                .OrderBy(x => x.ParentId)
-                .ThenBy(x => x.SortOrder)
-                .ToListAsync();
-            return Ok(data);
+            try
+            {
+                var check = _roleManager.Roles;
+                var user = await _userManager.FindByIdAsync(userId);
+                var roles = await _userManager.GetRolesAsync(user);
+    
+                var query = from f in _context.Functions
+                            join p in _context.Permissions
+                                on f.Id equals p.FunctionId
+                            join r in _roleManager.Roles on p.RoleId equals r.Id
+                            join a in _context.Commands
+                                on p.CommandId equals a.Id
+                            where roles.Contains(r.Name) 
+                            select new FunctionVm
+                            {
+                                Id = f.Id,
+                                Name = f.Name,
+                                Url = f.Url,
+                                ParentId = f.ParentId,
+                                SortOrder = f.SortOrder,
+                                Icon = f.Icon
+                            };
+
+                var data = await query.Distinct()
+                    .OrderBy(x => x.ParentId)
+                    .ThenBy(x => x.SortOrder)
+                    .ToListAsync();
+                return Ok(data);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest();
+            }
+
         }
 
         [HttpGet("{userId}/roles")]

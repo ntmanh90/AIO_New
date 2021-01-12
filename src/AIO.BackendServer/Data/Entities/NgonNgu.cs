@@ -12,16 +12,20 @@ namespace AIO.BackendServer.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID_NgonNgu { get; set; }
-        [MaxLength(200)]
+        [MaxLength(10)]
         [Required]
-        public string TenNgonNgu { get; set; }
-        public DateTime CreateDate { get; set; }
+        public string KyHieu { get; set; }
         [MaxLength(200)]
+        [MinLength(5)]
         [Required]
-        public string CreateBy { get; set; }
+        public string TieuDe { get; set; }
+        public DateTime? CreateDate { get; set; }
         [MaxLength(200)]
-        public string ModifyBy { get; set; }
-        public DateTime ModifyDate { get; set; }
+  
+        public string? CreateBy { get; set; }
+        [MaxLength(200)]
+        public string? ModifyBy { get; set; }
+        public DateTime? ModifyDate { get; set; }
         public bool Delete { get; set; }
        
     }

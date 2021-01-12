@@ -66,8 +66,8 @@ namespace AIO.BackendServer.Data
         public DbSet<Comment> Comments { set; get; }
         public DbSet<Function> Functions { set; get; }
         public DbSet<KnowledgeBase> KnowledgeBases { set; get; }
-        public DbSet<Label> Labels { set; get; }
         public DbSet<LabelInKnowledgeBase> LabelInKnowledgeBases { set; get; }
+        public DbSet<Label> Labels { set; get; }
         public DbSet<Permission> Permissions { set; get; }
         public DbSet<Report> Reports { set; get; }
 
@@ -78,14 +78,30 @@ namespace AIO.BackendServer.Data
         public DbSet<CauHinhKhachSan> CauHinhKhachSans { get; set; }
 
         public DbSet<CongTy> CongTys { get; set; }
-        public DbSet<Giuong> Giuongs { get; set; }
+      
+        public DbSet<NgonNgu> NgonNgus { get; set; }
+       
         public DbSet<NN_KhachSan> NN_KhachSans { get; set; }
         public DbSet<NN_TienIchMoRong> NN_TienIchMoRongs { get; set; }
-        public DbSet<NgonNgu> NgonNgus { get; set; }
-        public DbSet<NgonNgu_KhachSan> NgonNgu_KhachSans { get; set; }
+        public DbSet<NN_HuongNhin> NN_HuongNhins { get; set; }
+        public DbSet<NN_SoNguoiToiDa> NN_SoNguoiToiDas { get; set; }
+        public DbSet<NN_TienIch> NN_TienIchs { get; set; }
+        public DbSet<NN_LoaiGiuong> NN_LoaiGiuongs { get; set; }
+        public DbSet<NN_LoaiPhong> NN_LoaiPhongs { get; set; }
+        public DbSet<NN_DichVu> NN_DichVus { get; set; }
+
+        public DbSet<LoaiPhong_Gallery> LoaiPhong_Gallerys { get; set; }
+        public DbSet<LoaiPhong_LoaiGiuong> LoaiPhong_LoaiGiuongs { get; set; }
+        public DbSet<LoaiPhong_TienIch> LoaiPhong_TienIchs { get; set; }
+
+        public DbSet<DichVu> DichVus { get; set; }
+
         public DbSet<SoNguoiToiDa> SoNguoiToiDas { get; set; }
         public DbSet<TienIch> TienIchs { get; set; }
-        public DbSet<View> Views { get; set; }
+        public DbSet<HuongNhin> HuongNhins { get; set; }
+        public DbSet<LoaiGiuong> LoaiGiuongs { get; set; }
+
+
         public DbSet<LoaiPhong> LoaiPhongs { get; set; }
         public DbSet<TienIchMoRong_CongTy> TienIchMoRong_CongTys { get; set; }
     }

@@ -8,21 +8,20 @@ namespace AIO.BackendServer.Data.Entities
     [Table("TienIch")]
     public class TienIch
     {
-
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID_TienIch { get; set; }
-        public int ID_NgonNgu { get; set; }
-        [MaxLength(500)]
         [Required]
-        public string NoiDungHienThi { get; set; }
+        [MaxLength(500)]
+        public string TieuDe { get; set; }
+        public bool TrangThai { get; set; }
         public bool Delete { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime? LastModifiedDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
         [MaxLength(200)]
         public string CreateBy { get; set; }
         [MaxLength(200)]
-        public string ModifyBy { get; set; }
+        public string? ModifyBy { get; set; }
 
     }
 }

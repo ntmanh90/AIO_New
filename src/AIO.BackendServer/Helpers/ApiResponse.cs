@@ -8,6 +8,7 @@ namespace AIO.BackendServer.Helpers
 {
     public class ApiResponse
     {
+        //custom mã lỗi chung cho API
         public int StatusCode { get; }
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

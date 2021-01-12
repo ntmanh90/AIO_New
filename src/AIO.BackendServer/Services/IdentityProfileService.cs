@@ -33,8 +33,10 @@ namespace AIO.BackendServer.Services
             _roleManager = roleManager;
         }
 
+        //Thực hiện gán thêm claime cho user. trong đó có danh sách quyền(Permissions) mà user này được phép truy cập
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
         {
+            //GetSubjectId ID user
             var sub = context.Subject.GetSubjectId();
             var user = await _userManager.FindByIdAsync(sub);
             if (user == null)
@@ -54,14 +56,16 @@ namespace AIO.BackendServer.Services
                         join r in _roleManager.Roles on p.RoleId equals r.Id
                         where roles.Contains(r.Name)
                         select f.Id + "_" + c.Id;
+            //Lấy danh sách permistion
             var permissions = await query.Distinct().ToListAsync();
 
-            //Add more claims like this
+            //Add more claims like this, gán claims
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
             claims.Add(new Claim(ClaimTypes.Role, string.Join(";", roles)));
             claims.Add(new Claim(SystemConstants.Claims.Permissions, JsonConvert.SerializeObject(permissions)));
 
+            //trả về claims để gán vào cho user
             context.IssuedClaims = claims;
         }
 

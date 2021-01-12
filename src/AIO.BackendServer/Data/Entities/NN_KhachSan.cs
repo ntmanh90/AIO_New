@@ -12,7 +12,6 @@ namespace AIO.BackendServer.Data.Entities
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID_KhachSan { get; set; }
-        [MaxLength(200)]
         [Required]
         public int ID_NgonNgu { get; set; }
         [MaxLength(500)]
@@ -23,7 +22,7 @@ namespace AIO.BackendServer.Data.Entities
         public string GioiThieu { get; set; }
         public bool Delete { get; set; }
         public DateTime CreateDate { get; set; }
-        public DateTime? LastModifiedDate { get; set; }
+        public DateTime? ModifyDate { get; set; }
         [MaxLength(200)]
         public string CreateBy { get; set; }
         [MaxLength(200)]

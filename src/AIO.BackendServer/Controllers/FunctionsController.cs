@@ -8,6 +8,7 @@ using AIO.ViewModels.Systems;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,40 +31,48 @@ namespace AIO.BackendServer.Controllers
         [ApiValidationFilter]
         public async Task<IActionResult> PostFunction([FromBody] FunctionCreateRequest request)
         {
-            _logger.LogInformation("Begin PostFunction API");
-
-            var dbFunction = await _context.Functions.FindAsync(request.Id);
-            if (dbFunction != null)
-                return BadRequest(new ApiBadRequestResponse($"Function with id {request.Id} is existed."));
-
-            var function = new Function()
+            try
             {
-                Id = request.Id,
-                Name = request.Name,
-                ParentId = request.ParentId,
-                SortOrder = request.SortOrder,
-                Url = request.Url,
-                Icon = request.Icon
-            };
-            _context.Functions.Add(function);
-            var result = await _context.SaveChangesAsync();
+                _logger.LogInformation("Begin PostFunction API");
 
-            if (result > 0)
-            {
-                _logger.LogInformation("End PostFunction API - Success");
+                var dbFunction = await _context.Functions.FindAsync(request.Id);
+                if (dbFunction != null)
+                    return BadRequest(new ApiBadRequestResponse($"Function with id {request.Id} is existed."));
 
-                return CreatedAtAction(nameof(GetById), new { id = function.Id }, request);
+                var function = new Function()
+                {
+                    Id = request.Id,
+                    Name = request.Name,
+                    ParentId = request.ParentId,
+                    SortOrder = request.SortOrder,
+                    Url = request.Url,
+                    Icon = request.Icon
+                };
+                _context.Functions.Add(function);
+                var result = await _context.SaveChangesAsync();
+
+                if (result > 0)
+                {
+                    _logger.LogInformation("End PostFunction API - Success");
+
+                    return CreatedAtAction(nameof(GetById), new { id = function.Id }, request);
+                }
+                else
+                {
+                    _logger.LogInformation("End PostFunction API - Failed");
+
+                    return BadRequest(new ApiBadRequestResponse("Create function is failed"));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _logger.LogInformation("End PostFunction API - Failed");
-
                 return BadRequest(new ApiBadRequestResponse("Create function is failed"));
             }
+
         }
 
         [HttpGet]
-        [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.VIEW)]
+         [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.VIEW)]
         public async Task<IActionResult> GetFunctions()
         {
             var functions = _context.Functions;
@@ -85,9 +94,8 @@ namespace AIO.BackendServer.Controllers
         [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.VIEW)]
         public async Task<IActionResult> GetFunctionsByParentId(string functionId)
         {
-            var functions = _context.Functions.Where(x => x.ParentId == functionId);
 
-            var functionvms = await functions.Select(u => new FunctionVm()
+            var functionvms = await _context.Functions.Select(u => new FunctionVm()
             {
                 Id = u.Id,
                 Name = u.Name,
@@ -154,9 +162,9 @@ namespace AIO.BackendServer.Controllers
         }
 
         [HttpPut("{id}")]
-        [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.UPDATE)]
-        [ApiValidationFilter]
-        public async Task<IActionResult> PutFunction(string id, [FromBody]FunctionCreateRequest request)
+         [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.UPDATE)]
+         [ApiValidationFilter]
+        public async Task<IActionResult> PutFunction(string id, [FromBody] FunctionCreateRequest request)
         {
             var function = await _context.Functions.FindAsync(id);
             if (function == null)
@@ -236,7 +244,7 @@ namespace AIO.BackendServer.Controllers
         }
 
         [HttpPost("{functionId}/commands")]
-        [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.CREATE)]
+         [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.CREATE)]
         [ApiValidationFilter]
         public async Task<IActionResult> PostCommandToFunction(string functionId, [FromBody] CommandAssignRequest request)
         {
@@ -285,7 +293,7 @@ namespace AIO.BackendServer.Controllers
         }
 
         [HttpDelete("{functionId}/commands")]
-        [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.UPDATE)]
+         [ClaimRequirement(FunctionCode.SYSTEM_FUNCTION, CommandCode.UPDATE)]
         public async Task<IActionResult> DeleteCommandToFunction(string functionId, [FromQuery] CommandAssignRequest request)
         {
             foreach (var commandId in request.CommandIds)

@@ -22,6 +22,7 @@ namespace AIO.BackendServer.Controllers
         }
 
         [HttpPost]
+        // FunctionCode là mã chức năng, CommandCode quyền thêm, xóa, sửa, view....
         [ClaimRequirement(FunctionCode.CONTENT_CATEGORY, CommandCode.CREATE)]
         [ApiValidationFilter]
         public async Task<IActionResult> PostCategory([FromBody] CategoryCreateRequest request)

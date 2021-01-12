@@ -20,6 +20,8 @@ namespace AIO.BackendServer.Authorization
             _commandCode = commandCode;
         }
 
+        //thực thi lại phương thức OnAuthorization. phương thức này sẽ được gọi khi yêu cầu lọc filter quyền
+        // theo danh sách permissionsClaim có chứa  functionCode và commandCode hiện tại không
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var permissionsClaim = context.HttpContext.User.Claims

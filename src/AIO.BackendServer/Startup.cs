@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using FluentValidation.AspNetCore;
 using AIO.BackendServer.Data;
@@ -134,7 +134,7 @@ namespace AIO.BackendServer
                     {
                         Implicit = new OpenApiOAuthFlow
                         {
-                            AuthorizationUrl = new Uri("https://localhost:5000/connect/authorize"),
+                            AuthorizationUrl = new Uri(Configuration["AuthorityUrl"] + "/connect/authorize"),
                             Scopes = new Dictionary<string, string> { { "api.AIO", "AIO API" } }
                         },
                     },
@@ -160,7 +160,7 @@ namespace AIO.BackendServer
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseErrorWrapping();
+            app.UseErrorWrapping(); //gọi error để hiển thị ra mã lỗi
             app.UseStaticFiles();
 
             app.UseIdentityServer();
