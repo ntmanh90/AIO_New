@@ -89,12 +89,14 @@ namespace AIO.BackendServer.Data
         public DbSet<NN_LoaiGiuong> NN_LoaiGiuongs { get; set; }
         public DbSet<NN_LoaiPhong> NN_LoaiPhongs { get; set; }
         public DbSet<NN_DichVu> NN_DichVus { get; set; }
+        public DbSet<NN_KhuyenMaiDatPhong> NN_KhuyenMaiDatPhongs { get; set; }
 
         public DbSet<LoaiPhong_Gallery> LoaiPhong_Gallerys { get; set; }
         public DbSet<LoaiPhong_LoaiGiuong> LoaiPhong_LoaiGiuongs { get; set; }
         public DbSet<LoaiPhong_TienIch> LoaiPhong_TienIchs { get; set; }
 
         public DbSet<DichVu> DichVus { get; set; }
+        public DbSet<KhuyenMaiDatPhong> KhuyenMaiDatPhongs { get; set; }
 
         public DbSet<SoNguoiToiDa> SoNguoiToiDas { get; set; }
         public DbSet<TienIch> TienIchs { get; set; }

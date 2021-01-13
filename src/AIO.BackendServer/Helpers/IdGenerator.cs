@@ -37,5 +37,21 @@ namespace AIO.BackendServer.Helpers
             }
             return _value.ToString("X");
         }
+
+        public static string NextId_KhuyenMaiDatPhong(int _value)
+        {
+            int Min = 0xA0000;
+            int Max = 0xFFFF9;
+            _value = Min - 1;
+            if (_value < Max)
+            {
+                _value++;
+            }
+            else
+            {
+                _value = Min;
+            }
+            return _value.ToString("X");
+        }
     }
 }

@@ -196,6 +196,7 @@ namespace AIO.BackendServer.Controllers
                     TheoDichVu = LoaiGiaDichVuConst.TheoDichVu,
                     TheoDemLuuTru = LoaiGiaDichVuConst.TheoDemLuuTru,
                     TheoSoNguoi = LoaiGiaDichVuConst.TheoSoNguoi,
+                    NN_DichVuVMs = new List<NN_DichVuVM>()
                 };
                 foreach (var item in _context.NgonNgus.ToList())
                 {
@@ -223,7 +224,7 @@ namespace AIO.BackendServer.Controllers
                 TrangThai = dichvu.TrangThai,
                 TheoDichVu = LoaiGiaDichVuConst.TheoDichVu,
                 TheoDemLuuTru = LoaiGiaDichVuConst.TheoDemLuuTru,
-                TheoSoNguoi = LoaiGiaDichVuConst.TheoSoNguoi
+                TheoSoNguoi = LoaiGiaDichVuConst.TheoSoNguoi,
 
                 NN_DichVuVMs = _context.NN_DichVus.Where(a => a.ID_DichVu == dichvu.ID_DichVu)
                 .Select(a => new NN_DichVuVM

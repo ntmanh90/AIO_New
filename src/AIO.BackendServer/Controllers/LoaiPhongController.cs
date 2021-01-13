@@ -335,7 +335,7 @@ namespace AIO.BackendServer.Controllers
                 ID_HuongNhin = loaiPhong.ID_HuongNhin,
                 NguoiLon = loaiPhong.NguoiLon,
                 TreEm = loaiPhong.TreEm,
-                TrangThai = false,
+                TrangThai = loaiPhong.TrangThai,
                 NN_LoaiPhongVMs = _context.NN_LoaiPhongs.Where(a => a.ID_LoaiPhong == loaiPhong.ID_LoaiPhong)
                 .Select(a => new NN_LoaiPhongVM
                 {
