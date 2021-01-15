@@ -185,6 +185,7 @@ namespace AIO.BackendServer.Controllers
             {
                 returnObject = new DichVuVM
                 {
+                    ID_DichVu = 0,
                     TenDichvu ="",
                     AnhDaiDien = "",
                     GiaTheoDemLuuTru = 0,
@@ -214,6 +215,7 @@ namespace AIO.BackendServer.Controllers
             }
             returnObject = new DichVuVM
             {
+                ID_DichVu = dichvu.ID_DichVu,
                 TenDichvu = dichvu.TenDichvu,
                 AnhDaiDien = dichvu.AnhDaiDien,
                 GiaTheoDemLuuTru = dichvu.GiaTheoDemLuuTru,

@@ -30,7 +30,8 @@ namespace AIO.ViewModels.Systems.KhuyenMaiDatPhong
         public bool ChuNhat { get; set; }
         public bool TrangThai { get; set; }
 
-
         public List<NN_KhuyenMaiDatPhongVM> NN_KhuyenMaiDatPhongVMs { get; set; }
+
+        public List<LoaiPhong_KhuyenMaiDatPhongVM> LoaiPhong_KhuyenMaiDatPhongVMs { get; set; }
     }
 }

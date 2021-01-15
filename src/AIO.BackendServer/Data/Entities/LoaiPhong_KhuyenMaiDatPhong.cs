@@ -5,18 +5,17 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIO.BackendServer.Data.Entities
 {
-    [Table("NN_KhuyenMaiDatPhong")]
-    public class NN_KhuyenMaiDatPhong
+    [Table("LoaiPhong_KhuyenMaiDatPhong")]
+    public class LoaiPhong_KhuyenMaiDatPhong
     {
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
-        public int Id_NgonNgu { get; set; }
+
+        public int Id_LoaiPhong { get; set; }
         public int ID_KhuyenMaiDatPhong{ get; set; }
         [MaxLength(300)]
-        public string TenTheoNgonNgu { get; set; }
-        public string DieuKhoan_DieuKien { get; set; }
         public bool Delete { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? ModifyDate { get; set; }

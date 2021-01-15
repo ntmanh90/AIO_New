@@ -4,14 +4,16 @@ using AIO.BackendServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AIO.BackendServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210113143734_update_FileUpload")]
+    partial class update_FileUpload
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -100,33 +102,6 @@ namespace AIO.BackendServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Attachments");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.CaiDatBanPhong", b =>
-                {
-                    b.Property<int>("ID_CaiDatBanPhong")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<float>("GiaBan")
-                        .HasColumnType("real");
-
-                    b.Property<int>("ID_LoaiPhong")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("NgayCaiDat")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("SoLuong")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("TrangThai")
-                        .HasColumnType("bit");
-
-                    b.HasKey("ID_CaiDatBanPhong");
-
-                    b.ToTable("CaiDatBanPhongs");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.Category", b =>

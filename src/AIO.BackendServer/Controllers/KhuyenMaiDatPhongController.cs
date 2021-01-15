@@ -95,6 +95,24 @@ namespace AIO.BackendServer.Controllers
                     _context.NN_KhuyenMaiDatPhongs.Add(nn_khuyenmaidatphong);
                     _context.SaveChanges();
                 }
+                //Thoại loại phòng được áp dụng
+                foreach(var item in request.LoaiPhong_KhuyenMaiDatPhongVMs.Where(a=>a.DaChon).ToList())
+                {
+                    if(_context.LoaiPhongs.Any(a=>a.ID_KhachSan == infoUser.ID_KhachSan && a.ID_LoaiPhong == item.ID_LoaiPhong))
+                    {
+                        _context.LoaiPhong_KhuyenMaiDatPhongs.Add(new LoaiPhong_KhuyenMaiDatPhong
+                        {
+                            ID_KhuyenMaiDatPhong = khuyenmaidatphong.ID_KhuyenMaiDatPhong,
+                            Id_LoaiPhong  = item.ID_LoaiPhong,
+                            CreateBy = infoUser.TenDangNhap,
+                            CreateDate = DateTime.Now,
+                            ModifyBy ="",
+                            ModifyDate = DateTime.Now,
+                            Delete = false
+                        });
+                        await _context.SaveChangesAsync();
+                    }    
+                }    
 
                 return Ok(khuyenmaidatphong);
             }
@@ -189,6 +207,29 @@ namespace AIO.BackendServer.Controllers
                     _context.NN_KhuyenMaiDatPhongs.Add(nn_khuyenmaidatphong);
                     _context.SaveChanges();
                 }
+
+                //Thêm loại phòng được áp dụng
+                _context.LoaiPhong_KhuyenMaiDatPhongs.RemoveRange(_context.LoaiPhong_KhuyenMaiDatPhongs.Where(a => a.ID_KhuyenMaiDatPhong == khuyenmaidatphong.ID_KhuyenMaiDatPhong).ToList());
+                _context.SaveChanges();
+
+                foreach (var item in request.LoaiPhong_KhuyenMaiDatPhongVMs.Where(a => a.DaChon).ToList())
+                {
+                    if (_context.LoaiPhongs.Any(a => a.ID_KhachSan == infoUser.ID_KhachSan && a.ID_LoaiPhong == item.ID_LoaiPhong))
+                    {
+                        _context.LoaiPhong_KhuyenMaiDatPhongs.Add(new LoaiPhong_KhuyenMaiDatPhong
+                        {
+                            ID_KhuyenMaiDatPhong = khuyenmaidatphong.ID_KhuyenMaiDatPhong,
+                            Id_LoaiPhong = item.ID_LoaiPhong,
+                            CreateBy = infoUser.TenDangNhap,
+                            CreateDate = DateTime.Now,
+                            ModifyBy = "",
+                            ModifyDate = DateTime.Now,
+                            Delete = false
+                        });
+                        await _context.SaveChangesAsync();
+                    }
+                }
+
 
                 return Ok(khuyenmaidatphong);
             }

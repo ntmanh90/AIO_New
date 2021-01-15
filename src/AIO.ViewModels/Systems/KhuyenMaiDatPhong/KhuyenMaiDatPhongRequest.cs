@@ -40,5 +40,7 @@ namespace AIO.ViewModels.Systems.KhuyenMaiDatPhong
         public bool TrangThai { get; set; }
 
         public List<NN_KhuyenMaiDatPhongRequest> NN_KhuyenMaiDatPhongRequests { get; set; }
+
+        public List<LoaiPhong_KhuyenMaiDatPhongVM> LoaiPhong_KhuyenMaiDatPhongVMs { get; set; }
     }
 }

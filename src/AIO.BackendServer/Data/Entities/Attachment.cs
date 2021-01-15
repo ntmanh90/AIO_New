@@ -28,8 +28,7 @@ namespace AIO.BackendServer.Data.Entities
         [Required]
         public long FileSize { get; set; }
 
-        public int KnowledgeBaseId { get; set; }
-
+        public int ID_KhachSan { get; set; }
         public DateTime CreateDate { get; set; }
         public DateTime? LastModifiedDate { get; set; }
     }
