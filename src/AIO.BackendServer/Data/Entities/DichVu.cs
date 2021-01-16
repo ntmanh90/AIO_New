@@ -27,6 +27,7 @@ namespace AIO.BackendServer.Data.Entities
         public float GiaTheoNguoiLon { get; set; }
         public float GiaTheoTreEm { get; set; }
         public bool TrangThai { get; set; }
+        public int Index { get; set; }
 
         public bool Delete { get; set; }
         public DateTime CreateDate { get; set; }

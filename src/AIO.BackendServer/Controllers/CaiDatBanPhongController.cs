@@ -55,6 +55,7 @@ namespace AIO.BackendServer.Controllers
                 else
                 {
                     chitietcaidatphong.GiaBan = request.GiaBan;
+                    _context.CaiDatBanPhongs.Update(chitietcaidatphong);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -93,6 +94,7 @@ namespace AIO.BackendServer.Controllers
                 else
                 {
                     chitietcaidatphong.SoLuong = request.SoLuong;
+                    _context.CaiDatBanPhongs.Update(chitietcaidatphong);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -131,6 +133,7 @@ namespace AIO.BackendServer.Controllers
                 else
                 {
                     chitietcaidatphong.TrangThai = request.TrangThai;
+                    _context.CaiDatBanPhongs.Update(chitietcaidatphong);
                     await _context.SaveChangesAsync();
                 }
             }
@@ -179,6 +182,7 @@ namespace AIO.BackendServer.Controllers
             }
 
             chitietcaidatphong.SoLuong = request.SoLuong;
+            _context.CaiDatBanPhongs.Update(chitietcaidatphong);
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -202,6 +206,7 @@ namespace AIO.BackendServer.Controllers
             }
 
             chitietcaidatphong.TrangThai = request.TrangThai;
+            _context.CaiDatBanPhongs.Update(chitietcaidatphong);
             await _context.SaveChangesAsync();
             return Ok();
         }
@@ -218,24 +223,54 @@ namespace AIO.BackendServer.Controllers
             var denNgay = request.TuNgay.AddDays(request.KhoangNgay);
             List<DanhSachBanPhongVM> danhSachBanPhongVMs = new List<DanhSachBanPhongVM>();
             //Lấy loaiphong
-            var loaiPhongs = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan).AsQueryable().ToListAsync();
+            var loaiPhongs = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan).OrderBy(a=>a.Index).AsQueryable().ToListAsync();
             foreach(var loaiphong in loaiPhongs)
             {
 
-                var khuyenMaiLoaiPhong = await _context.KhuyenMaiDatPhongs.Where(a=>a.ID_KhachSan == infoUser.ID_KhachSan && a.id)
+                var khuyenMaiLoaiPhongVMs = await _context.LoaiPhong_KhuyenMaiDatPhongs.Where(a => a.Id_LoaiPhong == loaiphong.ID_LoaiPhong).Select(a=> new KhuyenMaiCuaLoaiPhongVM
+                {
+                    ID_LoaiPhong = a.Id_LoaiPhong,
+                    TenKhuyenMaiDatPhong = _context.KhuyenMaiDatPhongs.FirstOrDefault(a=>a.ID_KhuyenMaiDatPhong == a.ID_KhuyenMaiDatPhong).TenKhuyenMaiDatPhong,
+                    PhanTramGiamGia = _context.KhuyenMaiDatPhongs.FirstOrDefault(a => a.ID_KhuyenMaiDatPhong == a.ID_KhuyenMaiDatPhong).PhanTramGiamGia
+                }
+                ).ToListAsync();
+                
+                var CaiDatBanPhongVMs = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == loaiphong.ID_LoaiPhong && a.NgayCaiDat >= request.TuNgay && a.NgayCaiDat <= denNgay)
+                    .Select(a=> new CaiDatBanPhongVM
+                    {
+                        ID_LoaiPhong = a.ID_LoaiPhong,
+                        ID_CaiDatBanPhong = a.ID_CaiDatBanPhong,
+                        GiaBan = a.GiaBan,
+                        NgayCaiDat = a.NgayCaiDat,
+                        SoLuong = a.SoLuong,
+                        TrangThai = a.TrangThai,
+                        GiaKhuyenMaiDatPhongVMs = Get_GiaKhuyenMaiDatPhongVMs(khuyenMaiLoaiPhongVMs,a.GiaBan)
+                    }).ToListAsync();
+
 
                 DanhSachBanPhongVM danhSachBanPhongVM = new DanhSachBanPhongVM 
                 { 
                     ID_LoaiPhong = loaiphong.ID_LoaiPhong,
                     Ten_LoaiPhong = loaiphong.TenLoaiPhong,
-                    
+                    KhuyenMaiCuaLoaiPhongVMs = khuyenMaiLoaiPhongVMs,
+                    CaiDatBanPhongVMs= CaiDatBanPhongVMs
                 };
-                
+                danhSachBanPhongVMs.Add(danhSachBanPhongVM);
             }    
 
-            return Ok();
+            return Ok(danhSachBanPhongVMs);
         }
 
+        public List<GiaKhuyenMaiDatPhongVM> Get_GiaKhuyenMaiDatPhongVMs(List<KhuyenMaiCuaLoaiPhongVM> khuyenMaiLoaiPhongVMs, float GiaBan)
+        {
+            var GiaKhuyenMaiDatPhongVMs = khuyenMaiLoaiPhongVMs.Select(a => new GiaKhuyenMaiDatPhongVM
+            {
+                Price = a.PhanTramGiamGia *0.01 * GiaBan
+            }).ToList();
+
+            return GiaKhuyenMaiDatPhongVMs;
+        }
+        
 
     }
 }

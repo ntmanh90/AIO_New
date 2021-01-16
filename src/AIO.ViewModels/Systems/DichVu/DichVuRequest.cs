@@ -24,6 +24,8 @@ namespace AIO.ViewModels.Systems.DichVu
         public float GiaTheoNguoiLon { get; set; }
         [Required]
         public float GiaTheoTreEm { get; set; }
+        [Required]
+        public int Index { get; set; }
         public bool TrangThai { get; set; }
 
         //Ngôn ngữ 

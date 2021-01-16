@@ -12,10 +12,10 @@ namespace AIO.ViewModels.Systems.CaiDatBanPhong
         public float GiaBan { get; set; }
         public bool TrangThai { get; set; }
         public DateTime NgayCaiDat { get; set; }
-        List<GiaKhuyenMaiDatPhongVM> GiaKhuyenMaiDatPhongVMs { get; set; }
+        public  List<GiaKhuyenMaiDatPhongVM> GiaKhuyenMaiDatPhongVMs { get; set; }
     }
     public class GiaKhuyenMaiDatPhongVM
     {
-        public float Price { get; set; }
+        public Double Price { get; set; }
     }
 }

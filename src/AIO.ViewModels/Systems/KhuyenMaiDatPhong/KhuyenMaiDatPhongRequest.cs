@@ -37,6 +37,8 @@ namespace AIO.ViewModels.Systems.KhuyenMaiDatPhong
         public bool ThuSau { get; set; }
         public bool ThuBay { get; set; }
         public bool ChuNhat { get; set; }
+        [Required]
+        public int Index { get; set; }
         public bool TrangThai { get; set; }
 
         public List<NN_KhuyenMaiDatPhongRequest> NN_KhuyenMaiDatPhongRequests { get; set; }

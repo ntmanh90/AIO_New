@@ -1,24 +1,15 @@
-﻿using System;
+﻿using AIO.BackendServer.Constants;
+using AIO.BackendServer.Data;
+using AIO.BackendServer.Data.Entities;
+using AIO.BackendServer.Helpers;
+using AIO.ViewModels.Systems;
+using AIO.ViewModels.Systems.KhuyenMaiDatPhong;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AIO.BackendServer.Authorization;
-using AIO.BackendServer.Constants;
-using AIO.BackendServer.Data;
-using AIO.BackendServer.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using AIO.BackendServer.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using AIO.ViewModels;
-using Microsoft.AspNetCore.Mvc.Filters;
-using AIO.ViewModels.LoaiGiuong;
-using AIO.ViewModels.NgonNgu;
-using System.Collections.Generic;
-using AIO.ViewModels.Systems;
-using AIO.ViewModels.LoaiPhong;
-using AIO.ViewModels.Systems.Common;
-using AIO.ViewModels.Systems.LoaiPhong;
-using AIO.ViewModels.Systems.DichVu;
-using AIO.ViewModels.Systems.KhuyenMaiDatPhong;
 
 namespace AIO.BackendServer.Controllers
 {
@@ -26,7 +17,7 @@ namespace AIO.BackendServer.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly string tieuDe = "khuyến mại đặt phòng";
-        InfoUser infoUser = new InfoUser();
+        private InfoUser infoUser = new InfoUser();
 
         public KhuyenMaiDatPhongController(ApplicationDbContext context)
         {
@@ -62,6 +53,7 @@ namespace AIO.BackendServer.Controllers
                 ThuSau = request.ThuSau,
                 ThuBay = request.ThuBay,
                 ChuNhat = request.ChuNhat,
+                Index = request.Index,
                 TrangThai = request.TrangThai,
 
                 MaKhuyenMaiDatPhong = infoUser.KyHieuKhachSan.Trim() + IdGenerator.NextId_KhuyenMaiDatPhong(max_id),
@@ -71,13 +63,12 @@ namespace AIO.BackendServer.Controllers
                 ModifyDate = DateTime.Now,
                 ModifyBy = "",
                 Delete = false
-
             };
             _context.KhuyenMaiDatPhongs.Add(khuyenmaidatphong);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                //thêm ngôn ngữ 
+                //thêm ngôn ngữ
                 foreach (var item in request.NN_KhuyenMaiDatPhongRequests)
                 {
                     var nn_khuyenmaidatphong = new NN_KhuyenMaiDatPhong
@@ -96,23 +87,23 @@ namespace AIO.BackendServer.Controllers
                     _context.SaveChanges();
                 }
                 //Thoại loại phòng được áp dụng
-                foreach(var item in request.LoaiPhong_KhuyenMaiDatPhongVMs.Where(a=>a.DaChon).ToList())
+                foreach (var item in request.LoaiPhong_KhuyenMaiDatPhongVMs.Where(a => a.DaChon).ToList())
                 {
-                    if(_context.LoaiPhongs.Any(a=>a.ID_KhachSan == infoUser.ID_KhachSan && a.ID_LoaiPhong == item.ID_LoaiPhong))
+                    if (_context.LoaiPhongs.Any(a => a.ID_KhachSan == infoUser.ID_KhachSan && a.ID_LoaiPhong == item.ID_LoaiPhong))
                     {
                         _context.LoaiPhong_KhuyenMaiDatPhongs.Add(new LoaiPhong_KhuyenMaiDatPhong
                         {
                             ID_KhuyenMaiDatPhong = khuyenmaidatphong.ID_KhuyenMaiDatPhong,
-                            Id_LoaiPhong  = item.ID_LoaiPhong,
+                            Id_LoaiPhong = item.ID_LoaiPhong,
                             CreateBy = infoUser.TenDangNhap,
                             CreateDate = DateTime.Now,
-                            ModifyBy ="",
+                            ModifyBy = "",
                             ModifyDate = DateTime.Now,
                             Delete = false
                         });
                         await _context.SaveChangesAsync();
-                    }    
-                }    
+                    }
+                }
 
                 return Ok(khuyenmaidatphong);
             }
@@ -121,7 +112,6 @@ namespace AIO.BackendServer.Controllers
                 return BadRequest(new ApiBadRequestResponse($"Tạo mới {tieuDe} thất bại."));
             }
         }
-
 
         [HttpGet("danh-sach")]
         //cliam
@@ -144,7 +134,6 @@ namespace AIO.BackendServer.Controllers
                     NgayBatDau = a.NgayBatDau,
                     NgayKetThuc = a.NgayKetThuc,
                     TrangThai = a.TrangThai
-
                 }).AsQueryable().ToListAsync();
             return Ok(result);
         }
@@ -180,8 +169,8 @@ namespace AIO.BackendServer.Controllers
             khuyenmaidatphong.ThuSau = request.ThuSau;
             khuyenmaidatphong.ThuBay = request.ThuBay;
             khuyenmaidatphong.ChuNhat = request.ChuNhat;
+            khuyenmaidatphong.Index = request.Index;
             khuyenmaidatphong.TrangThai = request.TrangThai;
-
 
             _context.KhuyenMaiDatPhongs.Update(khuyenmaidatphong);
             var result = await _context.SaveChangesAsync();
@@ -189,7 +178,7 @@ namespace AIO.BackendServer.Controllers
             {
                 _context.NN_KhuyenMaiDatPhongs.RemoveRange(_context.NN_KhuyenMaiDatPhongs.Where(a => a.ID_KhuyenMaiDatPhong == khuyenmaidatphong.ID_KhuyenMaiDatPhong).ToList());
                 _context.SaveChanges();
-                //thêm ngôn ngữ 
+                //thêm ngôn ngữ
                 foreach (var item in request.NN_KhuyenMaiDatPhongRequests)
                 {
                     var nn_khuyenmaidatphong = new NN_KhuyenMaiDatPhong
@@ -230,7 +219,6 @@ namespace AIO.BackendServer.Controllers
                     }
                 }
 
-
                 return Ok(khuyenmaidatphong);
             }
             return BadRequest(new ApiBadRequestResponse("Cập nhật không thành công"));
@@ -251,8 +239,11 @@ namespace AIO.BackendServer.Controllers
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                //Ngôn ngữ 
+                //Ngôn ngữ
                 _context.NN_KhuyenMaiDatPhongs.Where(a => a.ID_KhuyenMaiDatPhong == khuyenmaidatphong.ID_KhuyenMaiDatPhong).ToList().ForEach(a => a.Delete = true);
+                _context.SaveChanges();
+                //Loại phòng áp dụng
+                _context.LoaiPhong_KhuyenMaiDatPhongs.Where(a => a.ID_KhuyenMaiDatPhong == khuyenmaidatphong.ID_KhuyenMaiDatPhong).ToList().ForEach(a => a.Delete = true);
                 _context.SaveChanges();
 
                 return Ok(new { kq = true });
@@ -264,20 +255,26 @@ namespace AIO.BackendServer.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var returnObject = new KhuyenMaiDatPhongVM();
+            var loaiPhongs = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan).OrderBy(a => a.Index).Select(a => new LoaiPhong_KhuyenMaiDatPhongVM
+            {
+                ID_LoaiPhong = a.ID_LoaiPhong,
+                TenLoaiPhong = a.TenLoaiPhong,
+                DaChon = false
+            }).ToListAsync();
             var khuyenmaidatphong = _context.KhuyenMaiDatPhongs.Where(a => a.ID_KhuyenMaiDatPhong == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
             if (khuyenmaidatphong == null)
             {
                 returnObject = new KhuyenMaiDatPhongVM
                 {
                     TenKhuyenMaiDatPhong = "",
-                    SoNgayLuuTruToiThieu =0,
+                    SoNgayLuuTruToiThieu = 0,
                     SoNgayDatTruoc = 0,
                     GiaCongThem = 0,
                     PhanTramGiamGia = 0,
                     PhanTramDatCoc = 0,
                     BaoGomAnSang = false,
                     DuocPhepHuy = false,
-                    DuocPhepThayDoi =false,
+                    DuocPhepThayDoi = false,
                     NgayBatDau = DateTime.Now,
                     NgayKetThuc = DateTime.Now,
                     TatCaNgayTrongTuan = false,
@@ -306,6 +303,14 @@ namespace AIO.BackendServer.Controllers
 
                 return Ok(returnObject);
             }
+
+            loaiPhongs = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan).Select(a => new LoaiPhong_KhuyenMaiDatPhongVM
+            {
+                ID_LoaiPhong = a.ID_LoaiPhong,
+                TenLoaiPhong = a.TenLoaiPhong,
+                DaChon = _context.LoaiPhong_KhuyenMaiDatPhongs.Any(b => b.ID_KhuyenMaiDatPhong == khuyenmaidatphong.ID_KhuyenMaiDatPhong && b.Id_LoaiPhong == a.ID_LoaiPhong)
+            }).ToListAsync();
+
             returnObject = new KhuyenMaiDatPhongVM
             {
                 TenKhuyenMaiDatPhong = khuyenmaidatphong.TenKhuyenMaiDatPhong,
@@ -337,10 +342,11 @@ namespace AIO.BackendServer.Controllers
                     DieuKhoan_DieuKien = a.DieuKhoan_DieuKien,
                     TenNgonNgu = _context.NgonNgus.FirstOrDefault(b => b.ID_NgonNgu == a.Id_NgonNgu).TieuDe
                 }).ToList(),
+
+                LoaiPhong_KhuyenMaiDatPhongVMs = loaiPhongs
             };
 
             return Ok(returnObject);
         }
-
     }
 }

@@ -1,23 +1,15 @@
-﻿using System;
+﻿using AIO.BackendServer.Constants;
+using AIO.BackendServer.Data;
+using AIO.BackendServer.Data.Entities;
+using AIO.BackendServer.Helpers;
+using AIO.ViewModels.Systems;
+using AIO.ViewModels.Systems.DichVu;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AIO.BackendServer.Authorization;
-using AIO.BackendServer.Constants;
-using AIO.BackendServer.Data;
-using AIO.BackendServer.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using AIO.BackendServer.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using AIO.ViewModels;
-using Microsoft.AspNetCore.Mvc.Filters;
-using AIO.ViewModels.LoaiGiuong;
-using AIO.ViewModels.NgonNgu;
-using System.Collections.Generic;
-using AIO.ViewModels.Systems;
-using AIO.ViewModels.LoaiPhong;
-using AIO.ViewModels.Systems.Common;
-using AIO.ViewModels.Systems.LoaiPhong;
-using AIO.ViewModels.Systems.DichVu;
 
 namespace AIO.BackendServer.Controllers
 {
@@ -25,7 +17,7 @@ namespace AIO.BackendServer.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly string tieuDe = "dịch vụ";
-        InfoUser infoUser = new InfoUser();
+        private InfoUser infoUser = new InfoUser();
 
         public DichVuController(ApplicationDbContext context)
         {
@@ -36,7 +28,7 @@ namespace AIO.BackendServer.Controllers
         [Route("them")]
         [ApiValidationFilter]
         // [ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.CREATE)]
-        public async Task<IActionResult> PostLoaiGiuong([FromBody] DichVuRequest request)
+        public async Task<IActionResult> Post([FromBody] DichVuRequest request)
         {
             var max_id = _context.DichVus.Any() ? _context.DichVus.Max(a => a.ID_DichVu) : 0;
             // thêm thông tin loại phòng
@@ -51,6 +43,7 @@ namespace AIO.BackendServer.Controllers
                 GiaTheoNguoiLon = request.GiaTheoNguoiLon,
                 GiaTheoTreEm = request.GiaTheoTreEm,
                 TrangThai = request.TrangThai,
+                Index = request.Index,
                 ID_KhachSan = infoUser.ID_KhachSan,
 
                 CreateBy = infoUser.TenDangNhap,
@@ -58,13 +51,12 @@ namespace AIO.BackendServer.Controllers
                 ModifyDate = DateTime.Now,
                 ModifyBy = "",
                 Delete = false
-
             };
             _context.DichVus.Add(dichVu);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
             {
-                //thêm ngôn ngữ 
+                //thêm ngôn ngữ
                 foreach (var item in request.NN_DichVuRequests)
                 {
                     var nn_dichvu = new NN_DichVu
@@ -82,7 +74,7 @@ namespace AIO.BackendServer.Controllers
                     _context.NN_DichVus.Add(nn_dichvu);
                     _context.SaveChanges();
                 }
-                
+
                 return Ok(dichVu);
             }
             else
@@ -90,7 +82,6 @@ namespace AIO.BackendServer.Controllers
                 return BadRequest(new ApiBadRequestResponse($"Tạo mới {tieuDe} thất bại."));
             }
         }
-
 
         [HttpGet("danh-sach")]
         //cliam
@@ -104,9 +95,9 @@ namespace AIO.BackendServer.Controllers
         [HttpPut]
         //[ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.VIEW)]
         [ApiValidationFilter]
-        public async Task<IActionResult> PutLoaiPhong([FromBody] DichVuRequest request)
+        public async Task<IActionResult> Put([FromBody] DichVuRequest request)
         {
-            var dichvu =  _context.DichVus.Where(a=>a.ID_DichVu == request.ID_DichVu && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
+            var dichvu = _context.DichVus.Where(a => a.ID_DichVu == request.ID_DichVu && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
             if (dichvu == null)
             {
                 return NotFound(new ApiNotFoundResponse($"{tieuDe} với id: {request.ID_DichVu}  không tồn tại"));
@@ -120,7 +111,7 @@ namespace AIO.BackendServer.Controllers
             dichvu.GiaTheoNguoiLon = request.GiaTheoNguoiLon;
             dichvu.GiaTheoTreEm = request.GiaTheoTreEm;
             dichvu.TrangThai = request.TrangThai;
-
+            dichvu.Index = request.Index;
 
             _context.DichVus.Update(dichvu);
             var result = await _context.SaveChangesAsync();
@@ -128,7 +119,7 @@ namespace AIO.BackendServer.Controllers
             {
                 _context.NN_DichVus.RemoveRange(_context.NN_DichVus.Where(a => a.ID_DichVu == dichvu.ID_DichVu).ToList());
                 _context.SaveChanges();
-                //thêm ngôn ngữ 
+                //thêm ngôn ngữ
                 foreach (var item in request.NN_DichVuRequests)
                 {
                     var nn_dichvu = new NN_DichVu
@@ -157,7 +148,7 @@ namespace AIO.BackendServer.Controllers
         //[ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.DELETE)]
         public async Task<IActionResult> Delete(int id)
         {
-            var dichvu =  _context.DichVus.Where(a=>a.ID_DichVu == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
+            var dichvu = _context.DichVus.Where(a => a.ID_DichVu == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
             if (dichvu == null)
             {
                 return BadRequest(new ApiBadRequestResponse($"{tieuDe} với id: {id} không tồn tại"));
@@ -180,13 +171,13 @@ namespace AIO.BackendServer.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var returnObject = new DichVuVM();
-            var dichvu =  _context.DichVus.Where(a=>a.ID_DichVu == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
+            var dichvu = _context.DichVus.Where(a => a.ID_DichVu == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
             if (dichvu == null)
             {
                 returnObject = new DichVuVM
                 {
                     ID_DichVu = 0,
-                    TenDichvu ="",
+                    TenDichvu = "",
                     AnhDaiDien = "",
                     GiaTheoDemLuuTru = 0,
                     GiaTheoDichVu = 0,
@@ -206,7 +197,7 @@ namespace AIO.BackendServer.Controllers
                         ID_NgonNgu = item.ID_NgonNgu,
                         TenNgonNgu = _context.NgonNgus.FirstOrDefault(b => b.ID_NgonNgu == item.ID_NgonNgu).TieuDe,
                         TenTheoNgonNgu = "",
-                        NoiDungTheoNgonNgu =""
+                        NoiDungTheoNgonNgu = ""
                     };
                     returnObject.NN_DichVuVMs.Add(nN_Object);
                 }
@@ -240,6 +231,5 @@ namespace AIO.BackendServer.Controllers
 
             return Ok(returnObject);
         }
-
     }
 }

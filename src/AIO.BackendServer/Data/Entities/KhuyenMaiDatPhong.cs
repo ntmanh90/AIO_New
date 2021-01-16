@@ -38,6 +38,7 @@ namespace AIO.BackendServer.Data.Entities
         public bool ThuSau { get; set; }
         public bool ThuBay { get; set; }
         public bool ChuNhat { get; set; }
+        public int Index { get; set; }
         public bool TrangThai { get; set; }
 
         public bool Delete { get; set; }

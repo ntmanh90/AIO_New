@@ -4,14 +4,16 @@ using AIO.BackendServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AIO.BackendServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210115153602_CaiDatBanPhong_V2")]
+    partial class CaiDatBanPhong_V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -459,88 +461,6 @@ namespace AIO.BackendServer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Functions");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.HoaDon", b =>
-                {
-                    b.Property<int>("ID_HoaDon")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("DaPhanHoi")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("DaThanhToan")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("Delete")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
-
-                    b.Property<string>("GioiTinh")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("HoTen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<int>("ID_HinhThucThanhToan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ID_KhachSan")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ID_NgonNgu")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("Link")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)")
-                        .HasMaxLength(1000);
-
-                    b.Property<string>("MaHoaDon")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("MoTa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<float>("SoTienThanhToan")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("ThoiGianDen")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID_HoaDon");
-
-                    b.ToTable("HoaDon");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.HuongNhin", b =>

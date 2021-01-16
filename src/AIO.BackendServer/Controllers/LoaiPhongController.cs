@@ -54,7 +54,8 @@ namespace AIO.BackendServer.Controllers
                 ID_KhachSan = infoUser.ID_KhachSan,
                 ID_HuongNhin = request.ID_HuongNhin,
                 NguoiLon = request.NguoiLon,
-                TreEm = request.TreEm
+                TreEm = request.TreEm,
+                Index = request.Index
 
             };
             _context.LoaiPhongs.Add(loaiPhong);
@@ -142,7 +143,7 @@ namespace AIO.BackendServer.Controllers
         //cliam
         public async Task<IActionResult> GetAll()
         {
-            var result = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan && a.Delete == DeleteStatus.ChuaXoa).AsQueryable().ToListAsync();
+            var result = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan && a.Delete == DeleteStatus.ChuaXoa).OrderBy(a=>a.Index).AsQueryable().ToListAsync();
             return Ok(result);
         }
 
@@ -166,8 +167,8 @@ namespace AIO.BackendServer.Controllers
             loaiPhong.ID_HuongNhin = request.ID_HuongNhin;
             loaiPhong.NguoiLon = request.NguoiLon;
             loaiPhong.TreEm = request.TreEm;
+            loaiPhong.Index = request.Index;
             
-
             _context.LoaiPhongs.Update(loaiPhong);
             var result = await _context.SaveChangesAsync();
             if (result > 0)
@@ -257,7 +258,7 @@ namespace AIO.BackendServer.Controllers
         //[ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.DELETE)]
         public async Task<IActionResult> DeleteLoaiGiuong(int id)
         {
-            var loaiPhong =  _context.LoaiPhongs.Where(a=>a.ID_LoaiPhong == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
+            var loaiPhong =  _context.LoaiPhongs.Where(a=>a.ID_LoaiPhong == id && a.ID_KhachSan == infoUser.ID_KhachSan).OrderBy(a=>a.Index).FirstOrDefault();
             if (loaiPhong == null)
             {
                 return BadRequest(new ApiBadRequestResponse($"{tieuDe} với id: {id} không tồn tại"));

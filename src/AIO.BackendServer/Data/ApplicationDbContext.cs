@@ -97,6 +97,7 @@ namespace AIO.BackendServer.Data
         public DbSet<LoaiPhong_TienIch> LoaiPhong_TienIchs { get; set; }
 
         public DbSet<DichVu> DichVus { get; set; }
+        public DbSet<HoaDon> HoaDons { get; set; }
         public DbSet<KhuyenMaiDatPhong> KhuyenMaiDatPhongs { get; set; }
         public DbSet<CaiDatBanPhong> CaiDatBanPhongs { get; set; }
 

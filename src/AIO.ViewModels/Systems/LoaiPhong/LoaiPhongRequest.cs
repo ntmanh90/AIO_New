@@ -29,6 +29,8 @@ namespace AIO.ViewModels.LoaiPhong
         [MaxLength(200)]
         [Required]
         public string KichThuoc { get; set; }
+        [Required]
+        public int Index { get; set; }
         public bool TrangThai { get; set; }
 
         //Ngôn ngữ cho tiêu đề loại phòng
