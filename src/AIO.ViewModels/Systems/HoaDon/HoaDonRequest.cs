@@ -10,7 +10,7 @@ namespace AIO.ViewModels.Systems.HoaDon
         public int ID_HoaDon { get; set; }
         [Required]
         [MaxLength(10)]
-        public string ID_NgonNgu { get; set; }
+        public string KyHieuNgonNgu { get; set; }
         [Required]
         public int ID_HinhThucThanhToan { get; set; }
         [MaxLength(50)]

@@ -4,14 +4,16 @@ using AIO.BackendServer.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace AIO.BackendServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210116065534_NewDatabase")]
+    partial class NewDatabase
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -129,6 +131,42 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("CaiDatBanPhongs");
                 });
 
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<int?>("NumberOfTickets")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SeoAlias")
+                        .IsRequired()
+                        .HasColumnType("varchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("SeoDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.CauHinhKhachSan", b =>
                 {
                     b.Property<int>("ID")
@@ -178,36 +216,66 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("CauHinhKhachSan");
                 });
 
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.ChucNang", b =>
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Command", b =>
                 {
-                    b.Property<string>("ID_ChucNang")
+                    b.Property<string>("Id")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("Icon")
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Commands");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.CommandInFunction", b =>
+                {
+                    b.Property<string>("CommandId")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("ParentId")
+                    b.Property<string>("FunctionId")
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("SortOrder")
+                    b.HasKey("CommandId", "FunctionId");
+
+                    b.ToTable("CommandInFunctions");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("KnowledgeBaseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("TenChucNang")
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("OwnerUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("Url")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
+                    b.HasKey("Id");
 
-                    b.HasKey("ID_ChucNang");
-
-                    b.ToTable("ChucNang");
+                    b.ToTable("Comments");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.CongTy", b =>
@@ -363,6 +431,38 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("DichVu");
                 });
 
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Function", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.Property<string>("ParentId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("SortOrder")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Url")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)")
+                        .HasMaxLength(200);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Functions");
+                });
+
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.HoaDon", b =>
                 {
                     b.Property<int>("ID_HoaDon")
@@ -406,7 +506,7 @@ namespace AIO.BackendServer.Migrations
                     b.Property<int>("ID_KhachSan")
                         .HasColumnType("int");
 
-                    b.Property<string>("KyHieuNgonNgu")
+                    b.Property<string>("ID_NgonNgu")
                         .IsRequired()
                         .HasColumnType("nvarchar(10)")
                         .HasMaxLength(10);
@@ -697,6 +797,116 @@ namespace AIO.BackendServer.Migrations
                     b.HasKey("ID_KhuyenMaiDatPhong");
 
                     b.ToTable("KhuyenMaiDatPhong");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.KnowledgeBase", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreateDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Environment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("ErrorMessage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Labels")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("NumberOfComments")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NumberOfReports")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("NumberOfVotes")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OwnerUserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Problem")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("SeoAlias")
+                        .IsRequired()
+                        .HasColumnType("varchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("StepToReproduce")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.Property<string>("Workaround")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("KnowledgeBases");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Label", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Labels");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.LabelInKnowledgeBase", b =>
+                {
+                    b.Property<string>("LabelId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<int>("KnowledgeBaseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LabelId", "KnowledgeBaseId");
+
+                    b.ToTable("LabelInKnowledgeBases");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.LoaiGiuong", b =>
@@ -1365,148 +1575,57 @@ namespace AIO.BackendServer.Migrations
                     b.ToTable("NgonNgu");
                 });
 
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NhomQuyen", b =>
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Permission", b =>
                 {
-                    b.Property<int>("ID_NhomQuyen")
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("FunctionId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.Property<string>("CommandId")
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(50);
+
+                    b.HasKey("RoleId", "FunctionId", "CommandId");
+
+                    b.ToTable("Permissions");
+                });
+
+            modelBuilder.Entity("AIO.BackendServer.Data.Entities.Report", b =>
+                {
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CreateBy")
+                    b.Property<string>("Content")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(500)")
+                        .HasMaxLength(500);
 
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Delete")
+                    b.Property<bool>("IsProcessed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ID_KhachSan")
+                    b.Property<int>("KnowledgeBaseId")
                         .HasColumnType("int");
 
-                    b.Property<string>("MaNhomQuyen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime?>("ModifyDate")
+                    b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("TenNhomQuyen")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.HasKey("ID_NhomQuyen");
-
-                    b.ToTable("NhomQuyen");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NhomQuyenChucNang", b =>
-                {
-                    b.Property<int>("ID_NhomQuyenChucNang")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ID_ChucNang")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("ID_KhachSan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ID_NhomQuyen")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ID_QuyenThaoTac")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(100);
-
-                    b.HasKey("ID_NhomQuyenChucNang");
-
-                    b.ToTable("NhomQuyenChucNang");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.NhomQuyen_Thuoc_KhachSan", b =>
-                {
-                    b.Property<int>("ID_NhomQuyen_Thuoc_KhachSan")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Delete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ID_KhachSan")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ID_NhomQuyen")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID_NhomQuyen_Thuoc_KhachSan");
-
-                    b.ToTable("NhomQuyen_Thuoc_KhachSan");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.QuyenThaoTac", b =>
-                {
-                    b.Property<string>("ID_QuyenThaoTac")
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.HasKey("ID_QuyenThaoTac");
-
-                    b.ToTable("QuyenThaoTac");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.QuyenThaoTacCuaChucNang", b =>
-                {
-                    b.Property<int>("ID_QuyenThaoTacCuaChucNang")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ID_ChucNang")
+                    b.Property<string>("ReportUserId")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<string>("ID_QuyenThaoTac")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(50);
+                    b.HasKey("Id");
 
-                    b.HasKey("ID_QuyenThaoTacCuaChucNang");
-
-                    b.ToTable("QuyenThaoTacCuaChucNang");
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.SoNguoiToiDa", b =>
@@ -1545,71 +1664,6 @@ namespace AIO.BackendServer.Migrations
                     b.HasKey("ID_SoNguoiToiDa");
 
                     b.ToTable("SoNguoiToiDa");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.TaiKhoanChucNang", b =>
-                {
-                    b.Property<int>("ID_NhomQuyenChucNang")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("ID_ChucNang")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("ID_KhachSan")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ID_QuyenThaoTac")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
-                        .HasMaxLength(100);
-
-                    b.Property<int>("ID_TaiKhoan")
-                        .HasColumnType("int");
-
-                    b.HasKey("ID_NhomQuyenChucNang");
-
-                    b.ToTable("TaiKhoanChucNang");
-                });
-
-            modelBuilder.Entity("AIO.BackendServer.Data.Entities.TaiKhoan_QL_KhachSan", b =>
-                {
-                    b.Property<int>("ID_TaiKhoan_QL_KhachSan")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Delete")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ID_KhachSan")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ID_TaiKhoan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ModifyBy")
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
-
-                    b.Property<DateTime?>("ModifyDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("ID_TaiKhoan_QL_KhachSan");
-
-                    b.ToTable("TaiKhoan_QL_KhachSan");
                 });
 
             modelBuilder.Entity("AIO.BackendServer.Data.Entities.TienIch", b =>
@@ -1706,10 +1760,6 @@ namespace AIO.BackendServer.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("CreateBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("datetime2");
 
@@ -1728,12 +1778,6 @@ namespace AIO.BackendServer.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasMaxLength(50);
 
-                    b.Property<int>("ID_CongTy")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ID_NhomQuyen")
-                        .HasColumnType("int");
-
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("datetime2");
 
@@ -1747,16 +1791,6 @@ namespace AIO.BackendServer.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("MaTaiKhoan")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
-
-                    b.Property<string>("ModifyBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(200)")
-                        .HasMaxLength(200);
 
                     b.Property<string>("NormalizedEmail")
                         .HasColumnType("nvarchar(256)")
@@ -1777,9 +1811,6 @@ namespace AIO.BackendServer.Migrations
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TrangThai")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");

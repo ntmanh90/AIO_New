@@ -37,7 +37,7 @@ namespace AIO.BackendServer.Controllers
         // [ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.CREATE)]
         public async Task<IActionResult> PostLoaiGiuong([FromBody] LoaiPhongRequest request)
         {
-            var max_id_loaiphong = _context.LoaiPhongs.Any() ? _context.LoaiPhongs.Max(a => a.ID_LoaiPhong) : 0;
+            var max_id = _context.LoaiPhongs.Any() ? _context.LoaiPhongs.OrderByDescending(a => a.ID_LoaiPhong).FirstOrDefaultAsync().Result.ID_LoaiPhong : 1;
             // thêm thông tin loại phòng
             var loaiPhong = new LoaiPhong()
             {
@@ -50,7 +50,7 @@ namespace AIO.BackendServer.Controllers
                 ModifyDate = DateTime.Now,
                 Delete = false,
                 TrangThai = request.TrangThai,
-                MaLoaiPhong = infoUser.KyHieuKhachSan.Trim() + IdGenerator.NextId_LoaiPhong(max_id_loaiphong),
+                MaLoaiPhong = infoUser.KyHieuKhachSan.Trim() + "-LP" + DateTime.Now.Year + "-" + max_id,
                 ID_KhachSan = infoUser.ID_KhachSan,
                 ID_HuongNhin = request.ID_HuongNhin,
                 NguoiLon = request.NguoiLon,
@@ -294,7 +294,7 @@ namespace AIO.BackendServer.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var returnObject = new LoaiPhongVM();
-            var loaiPhong =  _context.LoaiPhongs.Where(a=>a.ID_LoaiPhong == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
+            var loaiPhong =  await _context.LoaiPhongs.FirstOrDefaultAsync(a=>a.ID_LoaiPhong == id && a.ID_KhachSan == infoUser.ID_KhachSan);
             if (loaiPhong == null)
             {
                 returnObject = new LoaiPhongVM

@@ -8,10 +8,10 @@ namespace AIO.BackendServer.Services
 {
     public interface IStorageService
     {
-        string GetFileUrl(string fileName);
+        string GetFileUrl(string fileName, string makhachsan);
 
-        Task SaveFileAsync(Stream mediaBinaryStream, string fileName);
+        Task SaveFileAsync(Stream mediaBinaryStream, string fileName, string makhachsan);
 
-        Task DeleteFileAsync(string fileName);
+        Task DeleteFileAsync(string fileName, string makhachsan);
     }
 }

@@ -8,7 +8,7 @@ namespace AIO.ViewModels.Systems.HoaDon
     {
         public int ID_HoaDon { get; set; }
         public int ID_HinhThucThanhToan { get; set; }
-        public string ID_NgonNgu { get; set; }
+        public string KyHieuNgonNgu { get; set; }
         public string MaHoaDon { get; set; }
         public string GioiTinh { get; set; }
         public string HoTen { get; set; }

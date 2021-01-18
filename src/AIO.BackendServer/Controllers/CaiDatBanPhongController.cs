@@ -15,7 +15,6 @@ namespace AIO.BackendServer.Controllers
     public class CaiDatBanPhongController : BaseController
     {
         private readonly ApplicationDbContext _context;
-        private readonly string tieuDe = "cài đặt bán phòng";
         private InfoUser infoUser = new InfoUser();
 
         public CaiDatBanPhongController(ApplicationDbContext context)
@@ -35,10 +34,11 @@ namespace AIO.BackendServer.Controllers
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
             }
-            var chitietcaidatphong = new CaiDatBanPhong();
+
             for (var ngaycaidat = request.NgayBatDau; ngaycaidat < request.NgayKetThuc; ngaycaidat = ngaycaidat.AddDays(1))
             {
-                chitietcaidatphong = await _context.CaiDatBanPhongs.FirstOrDefaultAsync(a => (a.NgayCaiDat - ngaycaidat).Days == 0 && a.ID_LoaiPhong == request.ID_LoaiPhong);
+                var chitietcaidatphong = await _context.CaiDatBanPhongs.FirstOrDefaultAsync(a => a.NgayCaiDat.Date == ngaycaidat.Date && a.ID_LoaiPhong == request.ID_LoaiPhong);
+
                 if (chitietcaidatphong == null)
                 {
                     chitietcaidatphong = new CaiDatBanPhong
@@ -74,10 +74,11 @@ namespace AIO.BackendServer.Controllers
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
             }
-            var chitietcaidatphong = new CaiDatBanPhong();
+
             for (var ngaycaidat = request.NgayBatDau; ngaycaidat < request.NgayKetThuc; ngaycaidat = ngaycaidat.AddDays(1))
             {
-                chitietcaidatphong = await _context.CaiDatBanPhongs.FirstOrDefaultAsync(a => (a.NgayCaiDat - ngaycaidat).Days == 0 && a.ID_LoaiPhong == request.ID_LoaiPhong);
+                var chitietcaidatphong = await _context.CaiDatBanPhongs.FirstOrDefaultAsync(a => a.NgayCaiDat.Date == ngaycaidat.Date && a.ID_LoaiPhong == request.ID_LoaiPhong);
+
                 if (chitietcaidatphong == null)
                 {
                     chitietcaidatphong = new CaiDatBanPhong
@@ -113,10 +114,10 @@ namespace AIO.BackendServer.Controllers
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
             }
-            var chitietcaidatphong = new CaiDatBanPhong();
             for (var ngaycaidat = request.NgayBatDau; ngaycaidat < request.NgayKetThuc; ngaycaidat = ngaycaidat.AddDays(1))
             {
-                chitietcaidatphong = await _context.CaiDatBanPhongs.FirstOrDefaultAsync(a => (a.NgayCaiDat - ngaycaidat).Days == 0 && a.ID_LoaiPhong == request.ID_LoaiPhong);
+                var chitietcaidatphong = await _context.CaiDatBanPhongs.FirstOrDefaultAsync(a => a.NgayCaiDat.Date == ngaycaidat.Date && a.ID_LoaiPhong == request.ID_LoaiPhong);
+
                 if (chitietcaidatphong == null)
                 {
                     chitietcaidatphong = new CaiDatBanPhong
@@ -152,7 +153,7 @@ namespace AIO.BackendServer.Controllers
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
             }
-            var chitietcaidatphong = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == request.ID_LoaiPhong && a.NgayCaiDat == request.NgayCaiDat && a.ID_CaiDatBanPhong == request.ID_CaiDatBanPhong).FirstOrDefaultAsync();
+            var chitietcaidatphong = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == request.ID_LoaiPhong && a.NgayCaiDat.Date == request.NgayCaiDat.Date && a.ID_CaiDatBanPhong == request.ID_CaiDatBanPhong).FirstOrDefaultAsync();
             if (chitietcaidatphong == null)
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
@@ -175,7 +176,7 @@ namespace AIO.BackendServer.Controllers
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
             }
-            var chitietcaidatphong = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == request.ID_LoaiPhong && a.NgayCaiDat == request.NgayCaiDat && a.ID_CaiDatBanPhong == request.ID_CaiDatBanPhong).FirstOrDefaultAsync();
+            var chitietcaidatphong = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == request.ID_LoaiPhong && a.NgayCaiDat.Date == request.NgayCaiDat.Date && a.ID_CaiDatBanPhong == request.ID_CaiDatBanPhong).FirstOrDefaultAsync();
             if (chitietcaidatphong == null)
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
@@ -199,7 +200,7 @@ namespace AIO.BackendServer.Controllers
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
             }
-            var chitietcaidatphong = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == request.ID_LoaiPhong && a.NgayCaiDat == request.NgayCaiDat && a.ID_CaiDatBanPhong == request.ID_CaiDatBanPhong).FirstOrDefaultAsync();
+            var chitietcaidatphong = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == request.ID_LoaiPhong && a.NgayCaiDat.Date == request.NgayCaiDat.Date && a.ID_CaiDatBanPhong == request.ID_CaiDatBanPhong).FirstOrDefaultAsync();
             if (chitietcaidatphong == null)
             {
                 return BadRequest("Phòng không tồn tại trong hệ thống");
@@ -212,31 +213,33 @@ namespace AIO.BackendServer.Controllers
         }
 
         //Danh sách
-
-        //Cập nhật giá phòng một ngày
         [HttpGet]
         [Route("danh-sach")]
         [ApiValidationFilter]
         // [ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.CREATE)]
-        public async Task<IActionResult> DanhSach(DanhSachCaiDatPhongRequest request)
+        public async Task<IActionResult> DanhSach([FromQuery] DateTime TuNgay, int KhoangNgay)
         {
-            var denNgay = request.TuNgay.AddDays(request.KhoangNgay);
+            if (KhoangNgay > 60 || KhoangNgay < 0)
+            {
+                return BadRequest("Không được tìm quá 60 ngày");
+            }
+            var denNgay = TuNgay.AddDays(KhoangNgay);
             List<DanhSachBanPhongVM> danhSachBanPhongVMs = new List<DanhSachBanPhongVM>();
             //Lấy loaiphong
-            var loaiPhongs = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan).OrderBy(a=>a.Index).AsQueryable().ToListAsync();
-            foreach(var loaiphong in loaiPhongs)
+            var loaiPhongs = await _context.LoaiPhongs.Where(a => a.ID_KhachSan == infoUser.ID_KhachSan).OrderBy(a => a.Index).AsQueryable().ToListAsync();
+            foreach (var loaiphong in loaiPhongs)
             {
 
-                var khuyenMaiLoaiPhongVMs = await _context.LoaiPhong_KhuyenMaiDatPhongs.Where(a => a.Id_LoaiPhong == loaiphong.ID_LoaiPhong).Select(a=> new KhuyenMaiCuaLoaiPhongVM
+                var khuyenMaiLoaiPhongVMs = await _context.LoaiPhong_KhuyenMaiDatPhongs.Where(a => a.Id_LoaiPhong == loaiphong.ID_LoaiPhong).Select(a => new KhuyenMaiCuaLoaiPhongVM
                 {
                     ID_LoaiPhong = a.Id_LoaiPhong,
-                    TenKhuyenMaiDatPhong = _context.KhuyenMaiDatPhongs.FirstOrDefault(a=>a.ID_KhuyenMaiDatPhong == a.ID_KhuyenMaiDatPhong).TenKhuyenMaiDatPhong,
+                    TenKhuyenMaiDatPhong = _context.KhuyenMaiDatPhongs.FirstOrDefault(a => a.ID_KhuyenMaiDatPhong == a.ID_KhuyenMaiDatPhong).TenKhuyenMaiDatPhong,
                     PhanTramGiamGia = _context.KhuyenMaiDatPhongs.FirstOrDefault(a => a.ID_KhuyenMaiDatPhong == a.ID_KhuyenMaiDatPhong).PhanTramGiamGia
                 }
                 ).ToListAsync();
-                
-                var CaiDatBanPhongVMs = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == loaiphong.ID_LoaiPhong && a.NgayCaiDat >= request.TuNgay && a.NgayCaiDat <= denNgay)
-                    .Select(a=> new CaiDatBanPhongVM
+
+                var CaiDatBanPhongVMs = await _context.CaiDatBanPhongs.Where(a => a.ID_LoaiPhong == loaiphong.ID_LoaiPhong && a.NgayCaiDat.Date >= TuNgay.Date && a.NgayCaiDat.Date <= denNgay.Date)
+                    .Select(a => new CaiDatBanPhongVM
                     {
                         ID_LoaiPhong = a.ID_LoaiPhong,
                         ID_CaiDatBanPhong = a.ID_CaiDatBanPhong,
@@ -244,33 +247,28 @@ namespace AIO.BackendServer.Controllers
                         NgayCaiDat = a.NgayCaiDat,
                         SoLuong = a.SoLuong,
                         TrangThai = a.TrangThai,
-                        GiaKhuyenMaiDatPhongVMs = Get_GiaKhuyenMaiDatPhongVMs(khuyenMaiLoaiPhongVMs,a.GiaBan)
                     }).ToListAsync();
+            
+                foreach(var item in CaiDatBanPhongVMs)
+                {
+                    item.GiaKhuyenMaiDatPhongVMs = khuyenMaiLoaiPhongVMs.Select(b => new GiaKhuyenMaiDatPhongVM
+                    {
+                        Price = b.PhanTramGiamGia * 0.01 * item.GiaBan
+                    }).ToList();
+                }    
 
-
-                DanhSachBanPhongVM danhSachBanPhongVM = new DanhSachBanPhongVM 
-                { 
+                DanhSachBanPhongVM danhSachBanPhongVM = new DanhSachBanPhongVM
+                {
                     ID_LoaiPhong = loaiphong.ID_LoaiPhong,
                     Ten_LoaiPhong = loaiphong.TenLoaiPhong,
                     KhuyenMaiCuaLoaiPhongVMs = khuyenMaiLoaiPhongVMs,
-                    CaiDatBanPhongVMs= CaiDatBanPhongVMs
+                    CaiDatBanPhongVMs = CaiDatBanPhongVMs
                 };
                 danhSachBanPhongVMs.Add(danhSachBanPhongVM);
-            }    
+            }
 
             return Ok(danhSachBanPhongVMs);
         }
-
-        public List<GiaKhuyenMaiDatPhongVM> Get_GiaKhuyenMaiDatPhongVMs(List<KhuyenMaiCuaLoaiPhongVM> khuyenMaiLoaiPhongVMs, float GiaBan)
-        {
-            var GiaKhuyenMaiDatPhongVMs = khuyenMaiLoaiPhongVMs.Select(a => new GiaKhuyenMaiDatPhongVM
-            {
-                Price = a.PhanTramGiamGia *0.01 * GiaBan
-            }).ToList();
-
-            return GiaKhuyenMaiDatPhongVMs;
-        }
-        
 
     }
 }

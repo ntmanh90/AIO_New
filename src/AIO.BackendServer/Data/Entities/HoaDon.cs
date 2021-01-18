@@ -8,13 +8,13 @@ namespace AIO.BackendServer.Data.Entities
     public class HoaDon
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int ID_HoaDon { get; set; }
 
         public int ID_KhachSan { get; set; }
         public int ID_HinhThucThanhToan { get; set; }
         [MaxLength(10)]
-        public string ID_NgonNgu { get; set; }
+        public string KyHieuNgonNgu { get; set; }
         [MaxLength(50)]
         public string MaHoaDon { get; set; }
 

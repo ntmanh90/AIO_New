@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AIO.BackendServer.Data.Entities
 {
     [Table("Attachments")]
-    public class Attachment : IDateTracking
+    public class Attachment 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

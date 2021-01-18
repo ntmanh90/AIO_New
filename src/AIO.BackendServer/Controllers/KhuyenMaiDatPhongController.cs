@@ -30,7 +30,7 @@ namespace AIO.BackendServer.Controllers
         // [ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.CREATE)]
         public async Task<IActionResult> Post([FromBody] KhuyenMaiDatPhongRequest request)
         {
-            var max_id = _context.KhuyenMaiDatPhongs.Any() ? _context.KhuyenMaiDatPhongs.Max(a => a.ID_KhuyenMaiDatPhong) : 0;
+            var max_id = _context.KhuyenMaiDatPhongs.Any() ? _context.KhuyenMaiDatPhongs.OrderByDescending(a => a.ID_KhuyenMaiDatPhong).FirstOrDefaultAsync().Result.ID_KhuyenMaiDatPhong : 1;
             // thêm thông tin
             var khuyenmaidatphong = new KhuyenMaiDatPhong()
             {
@@ -56,7 +56,7 @@ namespace AIO.BackendServer.Controllers
                 Index = request.Index,
                 TrangThai = request.TrangThai,
 
-                MaKhuyenMaiDatPhong = infoUser.KyHieuKhachSan.Trim() + IdGenerator.NextId_KhuyenMaiDatPhong(max_id),
+                MaKhuyenMaiDatPhong = infoUser.KyHieuKhachSan.Trim() + "-KM" + DateTime.Now.Year + "-" + max_id,
                 ID_KhachSan = infoUser.ID_KhachSan,
                 CreateBy = infoUser.TenDangNhap,
                 CreateDate = DateTime.Now,

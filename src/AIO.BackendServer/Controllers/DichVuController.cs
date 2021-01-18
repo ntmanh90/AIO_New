@@ -30,12 +30,12 @@ namespace AIO.BackendServer.Controllers
         // [ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.CREATE)]
         public async Task<IActionResult> Post([FromBody] DichVuRequest request)
         {
-            var max_id = _context.DichVus.Any() ? _context.DichVus.Max(a => a.ID_DichVu) : 0;
+            var max_id = _context.DichVus.Any() ? _context.DichVus.OrderByDescending(a => a.ID_DichVu).FirstOrDefaultAsync().Result.ID_DichVu : 1;
             // thêm thông tin loại phòng
             var dichVu = new DichVu()
             {
                 TenDichvu = request.TenDichvu,
-                MaDichVu = infoUser.KyHieuKhachSan.Trim() + IdGenerator.NextId_DichVu(max_id),
+                MaDichVu = infoUser.KyHieuKhachSan.Trim() + "-DV" + DateTime.Now.Year + "-" + max_id,
                 AnhDaiDien = request.AnhDaiDien,
                 GiaTheoDemLuuTru = request.GiaTheoDemLuuTru,
                 GiaTheoDichVu = request.GiaTheoDichVu,
@@ -171,7 +171,7 @@ namespace AIO.BackendServer.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var returnObject = new DichVuVM();
-            var dichvu = _context.DichVus.Where(a => a.ID_DichVu == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefault();
+            var dichvu = await _context.DichVus.Where(a => a.ID_DichVu == id && a.ID_KhachSan == infoUser.ID_KhachSan).FirstOrDefaultAsync();
             if (dichvu == null)
             {
                 returnObject = new DichVuVM

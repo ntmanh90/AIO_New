@@ -16,19 +16,19 @@ namespace AIO.BackendServer.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetCommands()
-        {
-            var user = User.Identity.Name;
-            var commands = _context.Commands;
+        //[HttpGet]
+        //public async Task<IActionResult> GetCommands()
+        //{
+        //    var user = User.Identity.Name;
+        //    var commands = _context.Commands;
 
-            var commandVms = await commands.Select(u => new CommandVm()
-            {
-                Id = u.Id,
-                Name = u.Name,
-            }).ToListAsync();
+        //    var commandVms = await commands.Select(u => new CommandVm()
+        //    {
+        //        Id = u.Id,
+        //        Name = u.Name,
+        //    }).ToListAsync();
 
-            return Ok(commandVms);
-        }
+        //    return Ok(commandVms);
+        //}
     }
 }

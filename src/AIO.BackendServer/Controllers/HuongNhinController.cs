@@ -1,28 +1,25 @@
-﻿using System;
+﻿using AIO.BackendServer.Constants;
+using AIO.BackendServer.Data;
+using AIO.BackendServer.Data.Entities;
+using AIO.BackendServer.Helpers;
+using AIO.ViewModels;
+using AIO.ViewModels.NgonNgu;
+using AIO.ViewModels.Systems;
+using AIO.ViewModels.View;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AIO.BackendServer.Authorization;
-using AIO.BackendServer.Constants;
-using AIO.BackendServer.Data;
-using AIO.BackendServer.Helpers;
-using Microsoft.AspNetCore.Mvc;
-using AIO.BackendServer.Data.Entities;
-using Microsoft.EntityFrameworkCore;
-using AIO.ViewModels;
-using Microsoft.AspNetCore.Mvc.Filters;
-using AIO.ViewModels.LoaiGiuong;
-using AIO.ViewModels.NgonNgu;
-using System.Collections.Generic;
-using AIO.ViewModels.View;
-using AIO.ViewModels.Systems;
 
 namespace AIO.BackendServer.Controllers
 {
     public class HuongNhinController : BaseController
     {
         private readonly ApplicationDbContext _context;
-        const string tieuDe = "Hướng nhìn";
-        InfoUser infoUser = new InfoUser();
+        private const string tieuDe = "Hướng nhìn";
+        private InfoUser infoUser = new InfoUser();
 
         public HuongNhinController(ApplicationDbContext context)
         {
@@ -39,18 +36,17 @@ namespace AIO.BackendServer.Controllers
             {
                 TieuDe = request.TieuDe,
                 CreateBy = infoUser.TenDangNhap,
-                TrangThai =  request.TrangThai,
+                TrangThai = request.TrangThai,
                 CreateDate = DateTime.Now,
                 ModifyDate = DateTime.Now,
                 ModifyBy = "",
                 Delete = false
-
             };
             _context.HuongNhins.Add(huongNhin);
             var result = await _context.SaveChangesAsync();
-            if(result > 0)
+            if (result > 0)
             {
-                foreach(var item in request.NN_ObjectRequests)
+                foreach (var item in request.NN_ObjectRequests)
                 {
                     var nn_HuongNhin = new NN_HuongNhin
                     {
@@ -66,19 +62,20 @@ namespace AIO.BackendServer.Controllers
                     _context.NN_HuongNhins.Add(nn_HuongNhin);
                     _context.SaveChanges();
                 }
-                return   Ok(huongNhin);
-            }    
+                return Ok(huongNhin);
+            }
             else
             {
                 return BadRequest(new ApiBadRequestResponse("Tạo mới hướng nhìn thất bại."));
-            }    
+            }
         }
+
         [HttpGet("filter")]
         //[ClaimRequirement(FunctionCode.DANHMUC_LOAI_GIUONG, CommandCode.VIEW)]
         public async Task<IActionResult> GetLoaiGiuongPaging(string filter, int pageIndex, int pagesize)
         {
             var query = _context.HuongNhins.AsQueryable();
-            if(!string.IsNullOrEmpty(filter))
+            if (!string.IsNullOrEmpty(filter))
             {
                 query = query.Where(x => x.TieuDe.Contains(filter));
             }
@@ -105,7 +102,7 @@ namespace AIO.BackendServer.Controllers
         //cliam
         public async Task<IActionResult> DanhSachSelect()
         {
-            var result = await _context.HuongNhins.Where(a=>a.Delete == DeleteStatus.ChuaXoa).AsQueryable().ToListAsync();
+            var result = await _context.HuongNhins.Where(a => a.Delete == DeleteStatus.ChuaXoa).AsQueryable().ToListAsync();
             return Ok(result);
         }
 
@@ -116,7 +113,7 @@ namespace AIO.BackendServer.Controllers
         public async Task<IActionResult> Put(int id, [FromBody] HuongNhinRequest request)
         {
             var huongNhin = await _context.HuongNhins.FindAsync(request.ID_HuongNhin);
-            if(huongNhin == null)
+            if (huongNhin == null)
             {
                 return NotFound(new ApiNotFoundResponse($"{tieuDe} với id: {request.ID_HuongNhin}  không tồn tại"));
             }
@@ -127,7 +124,7 @@ namespace AIO.BackendServer.Controllers
 
             _context.HuongNhins.Update(huongNhin);
             var result = await _context.SaveChangesAsync();
-            if(result> 0)
+            if (result > 0)
             {
                 _context.NN_HuongNhins.RemoveRange(_context.NN_HuongNhins.Where(a => a.ID_HuongNhin == huongNhin.ID_HuongNhin).ToList());
 
@@ -184,16 +181,16 @@ namespace AIO.BackendServer.Controllers
         {
             var returnObject = new HuongNhinRequest();
             var huongnhin = await _context.HuongNhins.FindAsync(id);
-            if(huongnhin == null)
+            if (huongnhin == null)
             {
                 returnObject = new HuongNhinRequest
                 {
                     ID_HuongNhin = 0,
-                    TieuDe ="",
+                    TieuDe = "",
                     TrangThai = true,
                     NN_ObjectRequests = new List<NN_ObjectRequest>()
                 };
-                foreach(var item in _context.NgonNgus.ToList())
+                foreach (var item in _context.NgonNgus.ToList())
                 {
                     NN_ObjectRequest nN_Object = new NN_ObjectRequest
                     {
@@ -202,8 +199,8 @@ namespace AIO.BackendServer.Controllers
                         NoidungHienThi = "",
                         TieuDe = _context.NgonNgus.FirstOrDefault(b => b.ID_NgonNgu == item.ID_NgonNgu).TieuDe
                     };
-                   returnObject.NN_ObjectRequests.Add(nN_Object);
-                }    
+                    returnObject.NN_ObjectRequests.Add(nN_Object);
+                }
 
                 return Ok(returnObject);
             }
@@ -212,8 +209,9 @@ namespace AIO.BackendServer.Controllers
                 ID_HuongNhin = huongnhin.ID_HuongNhin,
                 TieuDe = huongnhin.TieuDe,
                 TrangThai = huongnhin.TrangThai,
-                NN_ObjectRequests = _context.NN_HuongNhins.Where(a=>a.ID_HuongNhin == huongnhin.ID_HuongNhin)
-                .Select(a=> new NN_ObjectRequest { 
+                NN_ObjectRequests = _context.NN_HuongNhins.Where(a => a.ID_HuongNhin == huongnhin.ID_HuongNhin)
+                .Select(a => new NN_ObjectRequest
+                {
                     ID_NgonNgu = a.Id_NgonNgu,
                     NoidungHienThi = a.NoiDungHienThi,
                     TieuDe = _context.NgonNgus.FirstOrDefault(b => b.ID_NgonNgu == a.Id_NgonNgu).TieuDe
@@ -222,6 +220,5 @@ namespace AIO.BackendServer.Controllers
 
             return Ok(returnObject);
         }
-
     }
 }

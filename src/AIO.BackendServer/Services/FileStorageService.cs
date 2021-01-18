@@ -17,24 +17,26 @@ namespace AIO.BackendServer.Services
             _userContentFolder = Path.Combine(webHostEnvironment.WebRootPath, USER_CONTENT_FOLDER_NAME);
         }
 
-        public string GetFileUrl(string fileName)
+        public string GetFileUrl(string fileName, string makhachsan)
         {
-            return $"/{USER_CONTENT_FOLDER_NAME}/{fileName}";
+            return $"/{USER_CONTENT_FOLDER_NAME}/{makhachsan}/{fileName}";
         }
 
-        public async Task SaveFileAsync(Stream mediaBinaryStream, string fileName)
+        public async Task SaveFileAsync(Stream mediaBinaryStream, string fileName, string makhachsan)
         {
-            if (!Directory.Exists(_userContentFolder))
-                Directory.CreateDirectory(_userContentFolder);
+            string thuMucKhachSan = $"{_userContentFolder}/{makhachsan}";
+            if (!Directory.Exists(thuMucKhachSan))
+                Directory.CreateDirectory(thuMucKhachSan);
 
-            var filePath = Path.Combine(_userContentFolder, fileName);
+            var filePath = Path.Combine(thuMucKhachSan, fileName);
             using var output = new FileStream(filePath, FileMode.Create);
             await mediaBinaryStream.CopyToAsync(output);
         }
 
-        public async Task DeleteFileAsync(string fileName)
+        public async Task DeleteFileAsync(string fileName, string makhachsan)
         {
-            var filePath = Path.Combine(_userContentFolder, fileName);
+            string thuMucKhachSan = $"{_userContentFolder}/{makhachsan}";
+            var filePath = Path.Combine(thuMucKhachSan, fileName);
             if (File.Exists(filePath))
             {
                 await Task.Run(() => File.Delete(filePath));

@@ -46,23 +46,21 @@ namespace AIO.BackendServer.Services
 
             var principal = await _claimsFactory.CreateAsync(user);
             var claims = principal.Claims.ToList();
-            var roles = await _userManager.GetRolesAsync(user);
+            var quyenTruyCaps = await _userManager.GetRolesAsync(user);
 
-            var query = from p in _context.Permissions
-                        join c in _context.Commands
-                        on p.CommandId equals c.Id
-                        join f in _context.Functions
-                        on p.FunctionId equals f.Id
-                        join r in _roleManager.Roles on p.RoleId equals r.Id
-                        where roles.Contains(r.Name)
-                        select f.Id + "_" + c.Id;
-            //Lấy danh sách permistion
+            var query = from t in _context.TaiKhoanChucNangs
+                        join q in _context.QuyenThaoTacs
+                        on t.ID_QuyenThaoTac equals q.ID_QuyenThaoTac
+                        join c in _context.ChucNangs
+                        on t.ID_ChucNang equals c.ID_ChucNang
+                        select c.ID_ChucNang + "_" + q.ID_QuyenThaoTac;
+            //Lấy danh sách permistion của user
             var permissions = await query.Distinct().ToListAsync();
 
             //Add more claims like this, gán claims
             claims.Add(new Claim(ClaimTypes.Name, user.UserName));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
-            claims.Add(new Claim(ClaimTypes.Role, string.Join(";", roles)));
+            //claims.Add(new Claim(ClaimTypes.Role, string.Join(";", roles)));
             claims.Add(new Claim(SystemConstants.Claims.Permissions, JsonConvert.SerializeObject(permissions)));
 
             //trả về claims để gán vào cho user

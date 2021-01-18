@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace AIO.BackendServer.Data.Entities
 {
     [Table("ActivityLogs")]
-    public class ActivityLog : IDateTracking
+    public class ActivityLog 
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
